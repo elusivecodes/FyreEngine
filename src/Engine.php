@@ -40,6 +40,7 @@ abstract class Engine
         ModelRegistry::addNamespace('App\Model');
         View::addNamespace('App\View\Helpers');
 
+        Config::load('functions');
         Config::load('app');
         Config::load('bootstrap');
     }

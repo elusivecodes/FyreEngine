@@ -29,6 +29,11 @@ final class EngineTest extends TestCase
 
         $this->assertSame(
             'Test',
+            Config::get('value3')
+        );
+
+        $this->assertSame(
+            'Test',
             Lang::get('Test.test')
         );
 
