@@ -35,9 +35,9 @@ abstract class Engine
         Lang::addPath(LANG);
         View::addPath(TEMPLATES);
 
-        CommandRunner::addNamespace('App\Commands');
-        EntityLocator::addNamespace('App\Entities');
-        ModelRegistry::addNamespace('App\Models');
+        CommandRunner::addNamespace('App\Command');
+        EntityLocator::addNamespace('App\Entity');
+        ModelRegistry::addNamespace('App\Model');
         View::addNamespace('App\View\Helpers');
 
         Config::load('app');
