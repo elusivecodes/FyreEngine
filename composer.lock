@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b00a966868e6500e1120f044c980cf7",
+    "content-hash": "324ab59e5167427cbd14e921e860aa08",
     "packages": [
         {
             "name": "fyre/array",
@@ -516,6 +516,49 @@
             "time": "2022-05-08T07:31:48+00:00"
         },
         {
+            "name": "fyre/forge",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elusivecodes/FyreForge.git",
+                "reference": "3827810d75e6f08078fca13c6558896cff7c852a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elusivecodes/FyreForge/zipball/3827810d75e6f08078fca13c6558896cff7c852a",
+                "reference": "3827810d75e6f08078fca13c6558896cff7c852a",
+                "shasum": ""
+            },
+            "require": {
+                "fyre/schema": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fyre\\Forge\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "elusivecodes",
+                    "email": "elusivecodes@gmail.com"
+                }
+            ],
+            "description": "A database forge library.",
+            "support": {
+                "issues": "https://github.com/elusivecodes/FyreForge/issues",
+                "source": "https://github.com/elusivecodes/FyreForge/tree/v1.0.1"
+            },
+            "time": "2022-06-12T11:06:38+00:00"
+        },
+        {
             "name": "fyre/formbuilder",
             "version": "v1.0.3",
             "source": {
@@ -849,6 +892,51 @@
                 "source": "https://github.com/elusivecodes/FyreMiddleware/tree/v1.0.4"
             },
             "time": "2022-03-31T08:54:38+00:00"
+        },
+        {
+            "name": "fyre/migration",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elusivecodes/FyreMigration.git",
+                "reference": "39654f4372509c1f22fbd691f8bf57089aa4dd0f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elusivecodes/FyreMigration/zipball/39654f4372509c1f22fbd691f8bf57089aa4dd0f",
+                "reference": "39654f4372509c1f22fbd691f8bf57089aa4dd0f",
+                "shasum": ""
+            },
+            "require": {
+                "fyre/filesystem": "^1.0",
+                "fyre/forge": "^1.0",
+                "fyre/loader": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fyre\\Migration\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "elusivecodes",
+                    "email": "elusivecodes@gmail.com"
+                }
+            ],
+            "description": "A database migration library.",
+            "support": {
+                "issues": "https://github.com/elusivecodes/FyreMigration/issues",
+                "source": "https://github.com/elusivecodes/FyreMigration/tree/v1.0.1"
+            },
+            "time": "2022-06-12T11:07:58+00:00"
         },
         {
             "name": "fyre/negotiate",

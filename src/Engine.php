@@ -9,6 +9,7 @@ use
     Fyre\Lang\Lang,
     Fyre\Middleware\MiddlewareQueue,
     Fyre\Middleware\RequestHandler,
+    Fyre\Migration\MigrationRunner,
     Fyre\ORM\EntityLocator,
     Fyre\ORM\ModelRegistry,
     Fyre\Router\Router,
@@ -37,6 +38,7 @@ abstract class Engine
 
         CommandRunner::addNamespace('App\Command');
         EntityLocator::addNamespace('App\Entity');
+        MigrationRunner::setNamespace('App\Migration');
         ModelRegistry::addNamespace('App\Model');
         View::addNamespace('App\View\Helpers');
 

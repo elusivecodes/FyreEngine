@@ -27,6 +27,7 @@
         "fyre/config": "^1.0",
         "fyre/lang": "^1.0",
         "fyre/middleware": "^1.0",
+        "fyre/migration": "^1.0",
         "fyre/orm": "^1.0",
         "fyre/router": "^2.1",
         "fyre/server": "^1.1",
