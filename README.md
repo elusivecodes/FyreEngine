@@ -26,7 +26,7 @@ use Fyre\Engine\Engine;
 
 ## Methods
 
-**Bootstrap***
+**Bootstrap**
 
 Bootstrap application.
 
@@ -36,7 +36,7 @@ Engine::bootstrap();
 
 **Middleware**
 
-Build application middleware.
+Build application [middleware](https://github.com/elusivecodes/FyreMiddleware).
 
 - `$queue` is a [*MiddlewareQueue*](https://github.com/elusivecodes/FyreMiddleware#middleware-queues).
 
@@ -46,7 +46,7 @@ Engine::middleware($queue);
 
 **Routes**
 
-Build application routes.
+Build application [routes](https://github.com/elusivecodes/FyreRouter).
 
 ```php
 Engine::routes();
