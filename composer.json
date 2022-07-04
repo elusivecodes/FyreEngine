@@ -23,7 +23,7 @@
         "phpunit/phpunit": "^9"
     },
     "require": {
-        "fyre/command": "^1.0",
+        "fyre/command": "^2.0",
         "fyre/config": "^1.0",
         "fyre/controller": "^3.0",
         "fyre/entity": "^2.0",

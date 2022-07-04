@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "50830c94a6d3ecf12e4e71e2891e71c0",
+    "content-hash": "52673673fb022341f33810c9d2d75d4b",
     "packages": [
         {
             "name": "fyre/array",
@@ -92,16 +92,16 @@
         },
         {
             "name": "fyre/command",
-            "version": "v1.0.4",
+            "version": "v2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreCommand.git",
-                "reference": "10527dd726d1b43f7731ee7e44298418b825d161"
+                "reference": "a6ef224e2d5c14fc3bf992157a9a1798adc1cc73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreCommand/zipball/10527dd726d1b43f7731ee7e44298418b825d161",
-                "reference": "10527dd726d1b43f7731ee7e44298418b825d161",
+                "url": "https://api.github.com/repos/elusivecodes/FyreCommand/zipball/a6ef224e2d5c14fc3bf992157a9a1798adc1cc73",
+                "reference": "a6ef224e2d5c14fc3bf992157a9a1798adc1cc73",
                 "shasum": ""
             },
             "require": {
@@ -131,9 +131,9 @@
             "description": "A command library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreCommand/issues",
-                "source": "https://github.com/elusivecodes/FyreCommand/tree/v1.0.4"
+                "source": "https://github.com/elusivecodes/FyreCommand/tree/v2.0"
             },
-            "time": "2022-06-13T08:27:38+00:00"
+            "time": "2022-07-04T08:37:24+00:00"
         },
         {
             "name": "fyre/config",
