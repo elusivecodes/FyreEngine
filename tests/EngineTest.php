@@ -9,8 +9,11 @@ use
     Fyre\Lang\Lang,
     Fyre\Middleware\MiddlewareQueue,
     Fyre\Router\Router,
+    Fyre\Server\ClientResponse,
+    Fyre\Server\ServerRequest,
     Fyre\View\View,
-    PHPUnit\Framework\TestCase;
+    PHPUnit\Framework\TestCase,
+    Tests\Mock\MockController;
 
 final class EngineTest extends TestCase
 {
@@ -37,9 +40,14 @@ final class EngineTest extends TestCase
             Lang::get('Test.test')
         );
 
+        $request = new ServerRequest();
+        $response = new ClientResponse();
+        $controller = new MockController($request, $response);
+        $view = new View($controller);
+
         $this->assertSame(
             'Test',
-            (new View)->render('test/template')
+            $view->render('test/template')
         );
     }
 

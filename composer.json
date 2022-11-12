@@ -25,7 +25,7 @@
     "require": {
         "fyre/command": "^2.0",
         "fyre/config": "^1.0",
-        "fyre/controller": "^3.0",
+        "fyre/controller": "^4.0.1",
         "fyre/entity": "^2.0",
         "fyre/lang": "^1.0",
         "fyre/middleware": "^1.0",
@@ -33,6 +33,6 @@
         "fyre/orm": "^3.0",
         "fyre/router": "^3.0",
         "fyre/server": "^1.1",
-        "fyre/view": "^3.0"
+        "fyre/view": "^4.0"
     }
 }
