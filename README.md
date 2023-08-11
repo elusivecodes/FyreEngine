@@ -1,6 +1,6 @@
 # FyreEngine
 
-**FyreEngine** is a free, engine library for *PHP*.
+**FyreEngine** is a free, open-source engine library for *PHP*.
 
 
 ## Table Of Contents

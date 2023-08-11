@@ -1,5 +1,5 @@
 <?php
 
-return [
-    'value4' => 'Test'
-];
+use Fyre\Router\Router;
+
+Router::setDefaultNamespace('Tests\Mock\Controller');

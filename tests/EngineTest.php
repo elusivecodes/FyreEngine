@@ -3,51 +3,53 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use
-    Fyre\Config\Config,
-    Fyre\Engine\Engine,
-    Fyre\Lang\Lang,
-    Fyre\Middleware\MiddlewareQueue,
-    Fyre\Router\Router,
-    Fyre\Server\ClientResponse,
-    Fyre\Server\ServerRequest,
-    Fyre\View\View,
-    PHPUnit\Framework\TestCase,
-    Tests\Mock\MockController;
+use Fyre\Config\Config;
+use Fyre\Engine\Engine;
+use Fyre\Lang\Lang;
+use Fyre\Middleware\MiddlewareQueue;
+use Fyre\Router\Router;
+use Fyre\Server\ClientResponse;
+use Fyre\Server\ServerRequest;
+use PHPUnit\Framework\TestCase;
+use Tests\Mock\Controller\MockController;
+
+use function function_exists;
 
 final class EngineTest extends TestCase
 {
 
     public function testBootstrap(): void
     {
-        $this->assertSame(
-            'Test',
-            Config::get('value1')
+        $this->assertTrue(
+            function_exists('test1')
         );
 
         $this->assertSame(
             'Test',
-            Config::get('value2')
+            Config::get('App.value')
         );
 
         $this->assertSame(
-            'Test',
-            Config::get('value3')
-        );
-
-        $this->assertSame(
-            'Test',
-            Lang::get('Test.test')
+            'https://test.com/',
+            Router::getBaseUri()
         );
 
         $request = new ServerRequest();
         $response = new ClientResponse();
         $controller = new MockController($request, $response);
-        $view = new View($controller);
+        $view = $controller->getView();
 
         $this->assertSame(
             'Test',
             $view->render('test/template')
+        );
+    }
+
+    public function testLang(): void
+    {
+        $this->assertSame(
+            'Test',
+            Lang::get('Values.test')
         );
     }
 
@@ -64,13 +66,8 @@ final class EngineTest extends TestCase
     public function testRoutes(): void
     {
         $this->assertSame(
-            'https://test.com/',
-            Router::getBaseUri()
-        );
-
-        $this->assertSame(
-            'Test',
-            Config::get('value3')
+            '\Tests\Mock\Controller\\',
+            Router::getDefaultNamespace()
         );
     }
 

@@ -3,26 +3,21 @@ declare(strict_types=1);
 
 namespace Fyre\Engine;
 
-use
-    Fyre\Command\CommandRunner,
-    Fyre\Config\Config,
-    Fyre\Controller\ComponentRegistry,
-    Fyre\Entity\EntityLocator,
-    Fyre\Lang\Lang,
-    Fyre\Middleware\MiddlewareQueue,
-    Fyre\Middleware\RequestHandler,
-    Fyre\Migration\MigrationRunner,
-    Fyre\ORM\BehaviorRegistry,
-    Fyre\ORM\ModelRegistry,
-    Fyre\Router\Router,
-    Fyre\Server\ServerRequest,
-    Fyre\View\HelperRegistry,
-    Fyre\View\View;
+use Fyre\Command\CommandRunner;
+use Fyre\Config\Config;
+use Fyre\Controller\ComponentRegistry;
+use Fyre\Entity\EntityLocator;
+use Fyre\Lang\Lang;
+use Fyre\Middleware\MiddlewareQueue;
+use Fyre\Migration\MigrationRunner;
+use Fyre\ORM\BehaviorRegistry;
+use Fyre\ORM\ModelRegistry;
+use Fyre\View\HelperRegistry;
+use Fyre\View\Template;
 
-use const
-    CONFIG,
-    LANG,
-    TEMPLATES;
+use const CONFIG;
+use const LANG;
+use const TEMPLATES;
 
 /**
  * Engine
@@ -37,18 +32,17 @@ abstract class Engine
     {
         Config::addPath(CONFIG);
         Lang::addPath(LANG);
-        View::addPath(TEMPLATES);
+        Template::addPath(TEMPLATES);
 
         BehaviorRegistry::addNamespace('App\Model\Behaviors');
         CommandRunner::addNamespace('App\Command');
         ComponentRegistry::addNamespace('App\Controller\Components');
         EntityLocator::addNamespace('App\Entity');
+        HelperRegistry::addNamespace('App\View\Helpers');
         MigrationRunner::setNamespace('App\Migration');
         ModelRegistry::addNamespace('App\Model');
-        HelperRegistry::addNamespace('App\View\Helpers');
 
         Config::load('functions');
-        Config::load('app');
         Config::load('bootstrap');
     }
 
@@ -67,12 +61,6 @@ abstract class Engine
      */
     public static function routes(): void
     {
-        $baseUri = Config::get('App.baseUri');
-
-        if ($baseUri) {
-            Router::setBaseUri($baseUri);
-        }
-
         Config::load('routes');
     }
 

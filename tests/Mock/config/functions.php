@@ -1,5 +1,3 @@
 <?php
 
-return [
-    'value1' => 'Test'
-];
+function test1() {}
