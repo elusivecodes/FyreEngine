@@ -38,6 +38,7 @@ final class EngineTest extends TestCase
         $response = new ClientResponse();
         $controller = new MockController($request, $response);
         $view = $controller->getView();
+        $view->setLayout(null);
 
         $this->assertSame(
             'Test',
