@@ -1,1 +1,1 @@
-{"version":1,"defects":{"Tests\\EngineTest::testBootstrap":8},"times":{"Tests\\EngineTest::testBootstrap":0.225,"Tests\\EngineTest::testLang":0.008,"Tests\\EngineTest::testMiddleware":0.01,"Tests\\EngineTest::testRoutes":0}}
+{"version":1,"defects":{"Tests\\EngineTest::testBootstrap":8},"times":{"Tests\\EngineTest::testBootstrap":0.32,"Tests\\EngineTest::testLang":0.006,"Tests\\EngineTest::testMiddleware":0.018,"Tests\\EngineTest::testRoutes":0}}
