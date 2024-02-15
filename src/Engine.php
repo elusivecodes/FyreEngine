@@ -12,6 +12,7 @@ use Fyre\Middleware\MiddlewareQueue;
 use Fyre\Migration\MigrationRunner;
 use Fyre\ORM\BehaviorRegistry;
 use Fyre\ORM\ModelRegistry;
+use Fyre\View\CellRegistry;
 use Fyre\View\HelperRegistry;
 use Fyre\View\Template;
 
@@ -35,6 +36,7 @@ abstract class Engine
         Template::addPath(TEMPLATES);
 
         BehaviorRegistry::addNamespace('App\Model\Behaviors');
+        CellRegistry::addNamespace('App\View\Cells');
         CommandRunner::addNamespace('App\Command');
         ComponentRegistry::addNamespace('App\Controller\Components');
         EntityLocator::addNamespace('App\Entity');
