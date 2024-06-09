@@ -147,6 +147,16 @@ Escape characters in a string for use in HTML.
 $escaped = escape($string);
 ```
 
+**Json**
+
+Create a new [*ClientResponse*](https://github.com/elusivecodes/FyreServer#client-responses) with JSON data.
+
+- `$data` is the data to send.
+
+```php
+$response = json($data);
+```
+
 **Model**
 
 Load a shared [*Model*](https://github.com/elusivecodes/FyreORM#models) instance.
@@ -165,12 +175,42 @@ Create a new [*DateTime*](https://github.com/elusivecodes/FyreDateTime) set to n
 $now = now();
 ```
 
+**Redirect**
+
+Create a new [*RedirectResponse*](https://github.com/elusivecodes/FyreServer#redirect-responses).
+
+- `$uri` is a [*Uri*](https://github.com/elusivecodes/FyreURI) or string representing the URI to redirect to.
+- `$code` is a number representing the header status code, and will default to *302*.
+- `$options` is an array containing configuration options.
+
+```php
+$response = redirect($uri, $code, $options);
+```
+
 **Request**
 
 Load a shared [*ServerRequest*](https://github.com/elusivecodes/FyreServer#server-requests) instance.
 
 ```php
 $request = request();
+```
+
+You can also retrieve value from the `$_POST` array by passing arguments to this function.
+
+- `$key` is a string representing the array key using "dot" notation.
+- `$filter` is a number representing the filter to apply, and will default to *FILTER_DEFAULT*.
+- `$options` is a number or array containing flags to use when filtering, and will default to *0*.
+
+```php
+$value = request($key, $filter, $options);
+```
+
+**Response**
+
+Create a new [*ClientResponse*](https://github.com/elusivecodes/FyreServer#client-responses).
+
+```php
+$response = response();
 ```
 
 **Route**
@@ -202,6 +242,16 @@ You can also set a session value by including a second argument.
 
 ```php
 session($key, $value);
+```
+
+**Type**
+
+Get the mapped [*Type*](https://github.com/elusivecodes/FyreTypeParser#types) class for a value type.
+
+- `$type` is a string representing the value type.
+
+```php
+$typeClass = type($type);
 ```
 
 **View**

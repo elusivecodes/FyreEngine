@@ -5,11 +5,16 @@ namespace Tests;
 
 use Fyre\Cache\Cache;
 use Fyre\DateTime\DateTime;
+use Fyre\DB\Types\DateTimeType;
 use Fyre\Encryption\Encryption;
 use Fyre\Error\Exceptions\Exception;
 use Fyre\ORM\Model;
+use Fyre\Server\ClientResponse;
+use Fyre\Server\RedirectResponse;
 use Fyre\Server\ServerRequest;
 use PHPUnit\Framework\TestCase;
+
+use const PHP_EOL;
 
 use function __;
 use function abort;
@@ -18,11 +23,14 @@ use function cache;
 use function config;
 use function encryption;
 use function escape;
+use function json;
 use function model;
 use function now;
+use function redirect;
 use function request;
 use function route;
 use function session;
+use function type;
 use function view;
 
 final class FunctionsTest extends TestCase
@@ -99,6 +107,28 @@ final class FunctionsTest extends TestCase
         );
     }
 
+    public function testJson(): void
+    {
+        $response = json(['a' => 1]);
+
+        $this->assertInstanceOf(
+            ClientResponse::class,
+            $response
+        );
+
+        $this->assertSame(
+            '{'.PHP_EOL.
+            '    "a": 1'.PHP_EOL.
+            '}',
+            $response->getBody()
+        );
+
+        $this->assertSame(
+            'application/json; charset=UTF-8',
+            $response->getHeaderValue('Content-Type')
+        );
+    }
+
     public function testLang(): void
     {
         $this->assertSame(
@@ -130,11 +160,33 @@ final class FunctionsTest extends TestCase
         );
     }
 
+    public function testRedirect(): void
+    {
+        $response = redirect('https://test.com/');
+
+        $this->assertInstanceOf(
+            RedirectResponse::class,
+            $response
+        );
+
+        $this->assertSame(
+            'https://test.com/',
+            $response->getHeaderValue('Location')
+        );
+    }
+
     public function testRequest(): void
     {
         $this->assertSame(
             ServerRequest::instance(),
             request()
+        );
+    }
+
+    public function testRequestKey(): void
+    {
+        $this->assertNull(
+            request('test')
         );
     }
 
@@ -172,6 +224,14 @@ final class FunctionsTest extends TestCase
         $this->assertSame(
             1,
             session('a')
+        );
+    }
+
+    public function testType(): void
+    {
+        $this->assertInstanceOf(
+            DateTimeType::class,
+            type('datetime')
         );
     }
 

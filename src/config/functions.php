@@ -5,6 +5,8 @@ use Fyre\Cache\Cache;
 use Fyre\Cache\Cacher;
 use Fyre\Config\Config;
 use Fyre\DateTime\DateTime;
+use Fyre\DB\TypeParser;
+use Fyre\DB\Types\Type;
 use Fyre\Encryption\Encrypter;
 use Fyre\Encryption\Encryption;
 use Fyre\Error\Exceptions\Exception;
@@ -13,6 +15,8 @@ use Fyre\Lang\Lang;
 use Fyre\ORM\Model;
 use Fyre\ORM\ModelRegistry;
 use Fyre\Router\Router;
+use Fyre\Server\ClientResponse;
+use Fyre\Server\RedirectResponse;
 use Fyre\Server\ServerRequest;
 use Fyre\Session\Session;
 use Fyre\Utility\HtmlHelper;
@@ -149,6 +153,18 @@ if (!function_exists('escape')) {
     }
 }
 
+if (!function_exists('json')) {
+    /**
+     * Create a new ClientResponse with JSON data.
+     * @param mixed $data The data to send.
+     * @return ClientResponse A new ClientResponse.
+     */
+    function json(mixed $data): ClientResponse
+    {
+        return (new ClientResponse())->setJson($data);
+    }
+}
+
 if (!function_exists('model')) {
     /**
      * Load a shared Model instance.
@@ -172,14 +188,45 @@ if (!function_exists('now')) {
     }
 }
 
+if (!function_exists('redirect')) {
+    /**
+     * Create a new RedirectResponse.
+     * @return RedirectResponse The RedirectResponse.
+     */
+    function redirect(Uri|string $uri, int $code = 302, array $options = []): RedirectResponse
+    {
+        return new RedirectResponse($uri, $code, $options);
+    }
+}
+
 if (!function_exists('request')) {
     /**
      * Load a shared ServerRequest instance.
-     * @return ServerRequest The ServerRequest.
+     * @param string|null $key The key.
+     * @param int $filter The filter to apply.
+     * @param int|array $options Options or flags to use when filtering.
+     * @return mixed The ServerRequest or the post value.
      */
-    function request(): ServerRequest
+    function request(string|null $key = null, int $filter = FILTER_DEFAULT, int|array $options = 0): mixed
     {
-        return ServerRequest::instance();
+        static $request = ServerRequest::instance();
+
+        if (func_num_args() === 0) {
+            return $request;
+        }
+
+        return $request->getPost($key, $filter, $options);
+    }
+}
+
+if (!function_exists('response')) {
+    /**
+     * Create a new ClientResponse.
+     * @return ClientResponse The ClientResponse.
+     */
+    function response(): ClientResponse
+    {
+        return new ClientResponse();
     }
 }
 
@@ -214,6 +261,18 @@ if (!function_exists('session')) {
     }
 }
 
+if (!function_exists('type')) {
+    /**
+     * Get a Type class for a value type.
+     * @param string $type The value type.
+     * @return Type The Type.
+     */
+    function type(string $type): Type
+    {
+        return TypeParser::use($type);
+    }
+}
+
 if (!function_exists('view')) {
     /**
      * Render a view template.
@@ -224,7 +283,9 @@ if (!function_exists('view')) {
      */
     function view(string $template, array $data = [], string|null $layout = null): string
     {
-        return (new View(ServerRequest::instance()))
+        static $request = ServerRequest::instance();
+
+        return (new View($request))
             ->setData($data)
             ->setLayout($layout ?? Config::get('App.defaultLayout'))
             ->render($template);
