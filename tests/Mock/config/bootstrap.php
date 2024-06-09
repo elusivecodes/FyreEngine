@@ -1,8 +1,21 @@
 <?php
 
+use Fyre\Cache\Cache;
+use Fyre\Cache\Handlers\NullCacher;
 use Fyre\Config\Config;
-use Fyre\Router\Router;
+use Fyre\Session\Session;
+use Tests\Mock\MockSessionHandler;
 
 Config::load('app');
 
-Router::setBaseUri(Config::get('App.baseUri', ''));
+Cache::setConfig('default', [
+    'className' => NullCacher::class
+]);
+
+Cache::setConfig('null', [
+    'className' => NullCacher::class
+]);
+
+Session::register([
+    'className' => MockSessionHandler::class
+]);

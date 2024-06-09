@@ -5,13 +5,13 @@ namespace Fyre\Engine;
 
 use Fyre\Command\CommandRunner;
 use Fyre\Config\Config;
-use Fyre\Controller\ComponentRegistry;
 use Fyre\Entity\EntityLocator;
 use Fyre\Lang\Lang;
 use Fyre\Middleware\MiddlewareQueue;
 use Fyre\Migration\MigrationRunner;
 use Fyre\ORM\BehaviorRegistry;
 use Fyre\ORM\ModelRegistry;
+use Fyre\Utility\Path;
 use Fyre\View\CellRegistry;
 use Fyre\View\HelperRegistry;
 use Fyre\View\Template;
@@ -32,17 +32,20 @@ abstract class Engine
     public static function bootstrap(): void
     {
         Config::addPath(CONFIG);
+        Config::addPath(Path::join(__DIR__, 'config'));
         Lang::addPath(LANG);
         Template::addPath(TEMPLATES);
 
-        BehaviorRegistry::addNamespace('App\Model\Behaviors');
-        CellRegistry::addNamespace('App\View\Cells');
-        CommandRunner::addNamespace('App\Command');
-        ComponentRegistry::addNamespace('App\Controller\Components');
-        EntityLocator::addNamespace('App\Entity');
-        HelperRegistry::addNamespace('App\View\Helpers');
-        MigrationRunner::setNamespace('App\Migration');
-        ModelRegistry::addNamespace('App\Model');
+        CommandRunner::addNamespace('App\Commands');
+        CommandRunner::addNamespace('Fyre\Queue\Commands');
+        CommandRunner::addNamespace('Fyre\Migration\Commands');
+
+        CellRegistry::addNamespace('App\Cells');
+        EntityLocator::addNamespace('App\Entities');  
+        HelperRegistry::addNamespace('App\Helpers');
+        MigrationRunner::setNamespace('App\Migrations');
+        ModelRegistry::addNamespace('App\Models');
+        BehaviorRegistry::addNamespace('App\Models\Behaviors');
 
         Config::load('functions');
         Config::load('bootstrap');

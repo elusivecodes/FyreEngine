@@ -8,10 +8,7 @@ use Fyre\Engine\Engine;
 use Fyre\Lang\Lang;
 use Fyre\Middleware\MiddlewareQueue;
 use Fyre\Router\Router;
-use Fyre\Server\ClientResponse;
-use Fyre\Server\ServerRequest;
 use PHPUnit\Framework\TestCase;
-use Tests\Mock\Controller\MockController;
 
 use function function_exists;
 
@@ -27,22 +24,6 @@ final class EngineTest extends TestCase
         $this->assertSame(
             'Test',
             Config::get('App.value')
-        );
-
-        $this->assertSame(
-            'https://test.com/',
-            Router::getBaseUri()
-        );
-
-        $request = new ServerRequest();
-        $response = new ClientResponse();
-        $controller = new MockController($request, $response);
-        $view = $controller->getView();
-        $view->setLayout(null);
-
-        $this->assertSame(
-            'Test',
-            $view->render('test/template')
         );
     }
 
@@ -67,8 +48,8 @@ final class EngineTest extends TestCase
     public function testRoutes(): void
     {
         $this->assertSame(
-            '\Tests\Mock\Controller\\',
-            Router::getDefaultNamespace()
+            'https://test.com/',
+            Router::getBaseUri()
         );
     }
 
