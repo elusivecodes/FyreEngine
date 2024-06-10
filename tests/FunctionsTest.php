@@ -7,7 +7,10 @@ use Fyre\Cache\Cache;
 use Fyre\DateTime\DateTime;
 use Fyre\DB\Types\DateTimeType;
 use Fyre\Encryption\Encryption;
-use Fyre\Error\Exceptions\Exception;
+use Fyre\Error\Exceptions\GoneException;
+use Fyre\Error\Exceptions\InternalServerException;
+use Fyre\Error\Exceptions\NotFoundException;
+use Fyre\Mail\Email;
 use Fyre\ORM\Model;
 use Fyre\Server\ClientResponse;
 use Fyre\Server\RedirectResponse;
@@ -38,9 +41,24 @@ final class FunctionsTest extends TestCase
 
     public function testAbort(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(InternalServerException::class);
 
         abort();
+    }
+
+    public function testAbortCode(): void
+    {
+        $this->expectException(GoneException::class);
+
+        abort(410);
+    }
+
+    public function testAbortMessage(): void
+    {
+        $this->expectException(NotFoundException::class);
+        $this->expectExceptionMessage('This is a message');
+
+        abort(404, 'This is a message');
     }
 
     public function testAsset(): void
@@ -80,6 +98,14 @@ final class FunctionsTest extends TestCase
         $this->assertSame(
             'Test',
             config('App.value')
+        );
+    }
+
+    public function testEmail(): void
+    {
+        $this->assertInstanceOf(
+            Email::class,
+            email()
         );
     }
 

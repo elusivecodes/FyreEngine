@@ -9,11 +9,26 @@ use Fyre\DB\TypeParser;
 use Fyre\DB\Types\Type;
 use Fyre\Encryption\Encrypter;
 use Fyre\Encryption\Encryption;
+use Fyre\Error\Exceptions\BadRequestException;
+use Fyre\Error\Exceptions\ConflictException;
 use Fyre\Error\Exceptions\Exception;
+use Fyre\Error\Exceptions\ForbiddenException;
+use Fyre\Error\Exceptions\GoneException;
+use Fyre\Error\Exceptions\InternalServerException;
+use Fyre\Error\Exceptions\MethodNotAllowedException;
+use Fyre\Error\Exceptions\NotAcceptableException;
+use Fyre\Error\Exceptions\NotFoundException;
+use Fyre\Error\Exceptions\NotImplementedException;
+use Fyre\Error\Exceptions\ServiceUnavailableException;
+use Fyre\Error\Exceptions\UnauthorizedException;
 use Fyre\Http\Uri;
 use Fyre\Lang\Lang;
+use Fyre\Log\Log;
+use Fyre\Mail\Email;
+use Fyre\Mail\Mail;
 use Fyre\ORM\Model;
 use Fyre\ORM\ModelRegistry;
+use Fyre\Queue\QueueManager;
 use Fyre\Router\Router;
 use Fyre\Server\ClientResponse;
 use Fyre\Server\RedirectResponse;
@@ -43,9 +58,21 @@ if (!function_exists('abort')) {
      * @param string $message The error message.
      * @throws Exception The Exception.
      */
-    function abort(int $code = 500, string $message = ''): void
+    function abort(int $code = 500, string|null $message = null): void
     {
-        throw new Exception($message, $code);
+        throw match($code) {
+            400 => new BadRequestException($message),
+            401 => new UnauthorizedException($message),
+            403 => new ForbiddenException($message),
+            404 => new NotFoundException($message),
+            405 => new MethodNotAllowedException($message),
+            406 => new NotAcceptableException($message),
+            409 => new ConflictException($message),
+            410 => new GoneException($message),
+            501 => new NotImplementedException($message),
+            503 => new ServiceUnavailableException($message),
+            default => new InternalServerException($message, $code)
+        };
     }
 }
 
@@ -129,6 +156,18 @@ if (!function_exists('dump')) {
     }
 }
 
+if (!function_exists('email')) {
+    /**
+     * Create a new Email for a Mailer.
+     * @param string $key
+     * @return Email
+     */
+    function email(string $key = Mail::DEFAULT): Email
+    {
+        return Mail::use($key)->email();
+    }
+}
+
 if (!function_exists('encryption')) {
     /**
      * Load a shared encryption instance.
@@ -165,6 +204,19 @@ if (!function_exists('json')) {
     }
 }
 
+if (!function_exists('log_message')) {
+    /**
+     * Log a message.
+     * @param string $type The log type.
+     * @param string $message The log message.
+     * @param array $data Additional data to interpolate.
+     */
+    function log_message(string $type, string $message, array $data = []): void
+    {
+        Log::__callStatic($type, [$message, $data]);
+    }
+}
+
 if (!function_exists('model')) {
     /**
      * Load a shared Model instance.
@@ -185,6 +237,19 @@ if (!function_exists('now')) {
     function now(): DateTime
     {
         return DateTime::now();
+    }
+}
+
+if (!function_exists('queue')) {
+    /**
+     * Push a job to the queue.
+     * @param string $className The job class.
+     * @param array $arguments The job arguments.
+     * @param array $options The job options.
+     */
+    function queue(string $className, array $arguments = [], array $options = []): void
+    {
+        QueueManager::push($className, $arguments, $options);
     }
 }
 

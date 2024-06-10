@@ -127,6 +127,16 @@ Dump data.
 dump(...$data);
 ```
 
+**Email**
+
+Create an [*Email*](https://github.com/elusivecodes/FyreMail#emails).
+
+- `$key` is a string representing the [*Mailer*](https://github.com/elusivecodes/FyreMail#mailers) key, and will default to *Mail::DEFAULT*.
+
+```php
+$email = email($key);
+```
+
 **Encryption**
 
 Load a shared [*Encrypter*](https://github.com/elusivecodes/FyreEncryption) instance.
@@ -157,6 +167,20 @@ Create a new [*ClientResponse*](https://github.com/elusivecodes/FyreServer#clien
 $response = json($data);
 ```
 
+**Log Message**
+
+Log a message.
+
+- `$type` is a string representing the log level.
+- `$message` is a string representing the log message.
+- `$data` is an array containing data to insert into the message string.
+
+```php
+log($type, $message, $data);
+```
+
+The `$type` must be one of the supported [log levels](https://github.com/elusivecodes/FyreLog#logging).
+
 **Model**
 
 Load a shared [*Model*](https://github.com/elusivecodes/FyreORM#models) instance.
@@ -173,6 +197,23 @@ Create a new [*DateTime*](https://github.com/elusivecodes/FyreDateTime) set to n
 
 ```php
 $now = now();
+```
+
+**Queue**
+
+Push a job to a [*Queue*](https://github.com/elusivecodes/FyreQueue#queues).
+
+- `$className` is a string representing the job class.
+- `$arguments` is an array containing arguments that will be passed to the job.
+- `$options` is an array containing options for the [*Message*](#messages).
+    - `config` is a string representing the configuration key, and will default to "*default*".
+    - `queue` is a string representing the [*Queue*](#queues) name, and will default to "*default*".
+    - `method` is a string representing the class method, and will default to "*run*".
+    - `delay` is a number representing the number of seconds before the job should run, and will default to *0*.
+    - `expires` is a number representing the number of seconds after which the job will expire, and will default to *0*.
+
+```php
+queue($className, $arguments, $options);
 ```
 
 **Redirect**

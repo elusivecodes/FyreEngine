@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10cb51edb641b91de457ee4e8d304a36",
+    "content-hash": "20665e7f0bf17cd4449cf9432bc718d4",
     "packages": [
         {
             "name": "fyre/array",
@@ -987,6 +987,46 @@
             "time": "2024-06-01T15:00:23+00:00"
         },
         {
+            "name": "fyre/mail",
+            "version": "v2.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elusivecodes/FyreMail.git",
+                "reference": "3268dad84d1c6d93da65477c0da11143505b34e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elusivecodes/FyreMail/zipball/3268dad84d1c6d93da65477c0da11143505b34e3",
+                "reference": "3268dad84d1c6d93da65477c0da11143505b34e3",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fyre\\Mail\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "elusivecodes",
+                    "email": "elusivecodes@gmail.com"
+                }
+            ],
+            "description": "A mail library.",
+            "support": {
+                "issues": "https://github.com/elusivecodes/FyreMail/issues",
+                "source": "https://github.com/elusivecodes/FyreMail/tree/v2.0.5"
+            },
+            "time": "2024-06-01T15:08:52+00:00"
+        },
+        {
             "name": "fyre/message",
             "version": "v3.0.1",
             "source": {
@@ -1245,6 +1285,50 @@
                 "source": "https://github.com/elusivecodes/FyrePath/tree/v2.0.3"
             },
             "time": "2024-06-01T14:32:35+00:00"
+        },
+        {
+            "name": "fyre/queue",
+            "version": "v2.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elusivecodes/FyreQueue.git",
+                "reference": "0d6cf811622b0b5989ccfe11b522d5275313fafe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elusivecodes/FyreQueue/zipball/0d6cf811622b0b5989ccfe11b522d5275313fafe",
+                "reference": "0d6cf811622b0b5989ccfe11b522d5275313fafe",
+                "shasum": ""
+            },
+            "require": {
+                "fyre/command": "^4.0"
+            },
+            "require-dev": {
+                "fyre/filesystem": "^2.0",
+                "phpunit/phpunit": "^10"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fyre\\Queue\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "elusivecodes",
+                    "email": "elusivecodes@gmail.com"
+                }
+            ],
+            "description": "A Queue library.",
+            "support": {
+                "issues": "https://github.com/elusivecodes/FyreQueue/issues",
+                "source": "https://github.com/elusivecodes/FyreQueue/tree/v2.0.9"
+            },
+            "time": "2024-06-09T01:01:22+00:00"
         },
         {
             "name": "fyre/request",
