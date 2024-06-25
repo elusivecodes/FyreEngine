@@ -40,27 +40,29 @@ use Fyre\View\View;
 if (!function_exists('__')) {
     /**
      * Get a language value.
+     *
      * @param string $key The language key.
      * @param array $data The data to insert.
      * @return string|array|null The formatted language string.
      */
-    function __(string $key, array $data = []): string|array|null
+    function __(string $key, array $data = []): array|string|null
     {
         return Lang::get($key, $data);
     }
 }
 
-
 if (!function_exists('abort')) {
     /**
      * Throw an Exception.
+     *
      * @param int $code The status code.
      * @param string $message The error message.
+     *
      * @throws Exception The Exception.
      */
     function abort(int $code = 500, string|null $message = null): void
     {
-        throw match($code) {
+        throw match ($code) {
             400 => new BadRequestException($message),
             401 => new UnauthorizedException($message),
             403 => new ForbiddenException($message),
@@ -79,6 +81,7 @@ if (!function_exists('abort')) {
 if (!function_exists('asset')) {
     /**
      * Generate a URL for an asset path.
+     *
      * @param string $path The asset path.
      * @param array $options The path options.
      * @return string The URL.
@@ -101,6 +104,7 @@ if (!function_exists('asset')) {
 if (!function_exists('cache')) {
     /**
      * Load a shared cache instance.
+     *
      * @param string $key The config key.
      * @return Cacher The cache handler.
      */
@@ -113,6 +117,7 @@ if (!function_exists('cache')) {
 if (!function_exists('config')) {
     /**
      * Retrieve a value from the config using "dot" notation.
+     *
      * @param string $key The config key.
      * @param mixed $default The default value.
      * @return mixed The config value.
@@ -126,23 +131,25 @@ if (!function_exists('config')) {
 if (!function_exists('dd')) {
     /**
      * Dump data and die.
+     *
      * @param mixed ...$data The data to dump.
      */
     function dd(mixed ...$data): void
     {
         dump(...$data);
-        die();
+        exit();
     }
 }
 
 if (!function_exists('dump')) {
     /**
      * Dump data.
+     *
      * @param mixed ...$data The data to dump.
      */
     function dump(mixed ...$data): void
     {
-        foreach ($data AS $item) {
+        foreach ($data as $item) {
             if (PHP_SAPI !== 'cli') {
                 echo '<pre>';
             }
@@ -159,8 +166,6 @@ if (!function_exists('dump')) {
 if (!function_exists('email')) {
     /**
      * Create a new Email for a Mailer.
-     * @param string $key
-     * @return Email
      */
     function email(string $key = Mail::DEFAULT): Email
     {
@@ -171,6 +176,7 @@ if (!function_exists('email')) {
 if (!function_exists('encryption')) {
     /**
      * Load a shared encryption instance.
+     *
      * @param string $key The config key.
      * @return Encrypter The encryption handler.
      */
@@ -183,6 +189,7 @@ if (!function_exists('encryption')) {
 if (!function_exists('escape')) {
     /**
      * Escape characters in a string for use in HTML.
+     *
      * @param string $string The input string.
      * @return string The escaped string.
      */
@@ -195,6 +202,7 @@ if (!function_exists('escape')) {
 if (!function_exists('json')) {
     /**
      * Create a new ClientResponse with JSON data.
+     *
      * @param mixed $data The data to send.
      * @return ClientResponse A new ClientResponse.
      */
@@ -207,6 +215,7 @@ if (!function_exists('json')) {
 if (!function_exists('log_message')) {
     /**
      * Log a message.
+     *
      * @param string $type The log type.
      * @param string $message The log message.
      * @param array $data Additional data to interpolate.
@@ -220,6 +229,7 @@ if (!function_exists('log_message')) {
 if (!function_exists('model')) {
     /**
      * Load a shared Model instance.
+     *
      * @param string $alias The model alias.
      * @return Model The Model.
      */
@@ -232,6 +242,7 @@ if (!function_exists('model')) {
 if (!function_exists('now')) {
     /**
      * Create a new DateTime set to now.
+     *
      * @return DateTime The DateTime.
      */
     function now(): DateTime
@@ -243,6 +254,7 @@ if (!function_exists('now')) {
 if (!function_exists('queue')) {
     /**
      * Push a job to the queue.
+     *
      * @param string $className The job class.
      * @param array $arguments The job arguments.
      * @param array $options The job options.
@@ -256,9 +268,10 @@ if (!function_exists('queue')) {
 if (!function_exists('redirect')) {
     /**
      * Create a new RedirectResponse.
+     *
      * @return RedirectResponse The RedirectResponse.
      */
-    function redirect(Uri|string $uri, int $code = 302, array $options = []): RedirectResponse
+    function redirect(string|Uri $uri, int $code = 302, array $options = []): RedirectResponse
     {
         return new RedirectResponse($uri, $code, $options);
     }
@@ -267,12 +280,13 @@ if (!function_exists('redirect')) {
 if (!function_exists('request')) {
     /**
      * Load a shared ServerRequest instance.
+     *
      * @param string|null $key The key.
      * @param int $filter The filter to apply.
      * @param int|array $options Options or flags to use when filtering.
      * @return mixed The ServerRequest or the post value.
      */
-    function request(string|null $key = null, int $filter = FILTER_DEFAULT, int|array $options = 0): mixed
+    function request(string|null $key = null, int $filter = FILTER_DEFAULT, array|int $options = 0): mixed
     {
         static $request = ServerRequest::instance();
 
@@ -287,6 +301,7 @@ if (!function_exists('request')) {
 if (!function_exists('response')) {
     /**
      * Create a new ClientResponse.
+     *
      * @return ClientResponse The ClientResponse.
      */
     function response(): ClientResponse
@@ -298,9 +313,10 @@ if (!function_exists('response')) {
 if (!function_exists('route')) {
     /**
      * Generate a URL for a named route.
-     * @param string $name The name.
+     *
      * @param array $arguments The route arguments
      * @param array $options The route options.
+     * @param string $name The name.
      * @return string The URL.
      */
     function route(string $alias, array $arguments = [], array $options = []): string
@@ -312,6 +328,7 @@ if (!function_exists('route')) {
 if (!function_exists('session')) {
     /**
      * Get or set a session value.
+     *
      * @param string $key The session key.
      * @param mixed $value The session value.
      * @return mixed The session value.
@@ -329,6 +346,7 @@ if (!function_exists('session')) {
 if (!function_exists('type')) {
     /**
      * Get a Type class for a value type.
+     *
      * @param string $type The value type.
      * @return Type The Type.
      */
@@ -341,9 +359,10 @@ if (!function_exists('type')) {
 if (!function_exists('view')) {
     /**
      * Render a view template.
-     * @param string $file The template file.
+     *
      * @param array $data The view data.
      * @param string|null $layout The layout.
+     * @param string $file The template file.
      * @return string The rendered template.
      */
     function view(string $template, array $data = [], string|null $layout = null): string

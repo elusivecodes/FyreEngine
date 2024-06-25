@@ -1,1 +1,1 @@
-Content: <?=$this->content()?>
+Content: <?= $this->content(); ?>

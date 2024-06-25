@@ -11,17 +11,17 @@ use Tests\Mock\MockSessionHandler;
 Config::load('app');
 
 Cache::setConfig('default', [
-    'className' => NullCacher::class
+    'className' => NullCacher::class,
 ]);
 
 Cache::setConfig('null', [
-    'className' => NullCacher::class
+    'className' => NullCacher::class,
 ]);
 
 Mail::setConfig('default', [
-    'className' => SendmailMailer::class
+    'className' => SendmailMailer::class,
 ]);
 
 Session::register([
-    'className' => MockSessionHandler::class
+    'className' => MockSessionHandler::class,
 ]);

@@ -25,7 +25,6 @@ use const TEMPLATES;
  */
 abstract class Engine
 {
-
     /**
      * Bootstrap application.
      */
@@ -41,7 +40,7 @@ abstract class Engine
         CommandRunner::addNamespace('Fyre\Migration\Commands');
 
         CellRegistry::addNamespace('App\Cells');
-        EntityLocator::addNamespace('App\Entities');  
+        EntityLocator::addNamespace('App\Entities');
         HelperRegistry::addNamespace('App\Helpers');
         MigrationRunner::setNamespace('App\Migrations');
         ModelRegistry::addNamespace('App\Models');
@@ -53,6 +52,7 @@ abstract class Engine
 
     /**
      * Build application middleware.
+     *
      * @param MiddlewareQueue $queue The MiddlewareQueue.
      * @return MiddlewareQueue The MiddlewareQueue.
      */
@@ -68,5 +68,4 @@ abstract class Engine
     {
         Config::load('routes');
     }
-
 }

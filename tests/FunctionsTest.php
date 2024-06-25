@@ -17,8 +17,6 @@ use Fyre\Server\RedirectResponse;
 use Fyre\Server\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
-use const PHP_EOL;
-
 use function __;
 use function abort;
 use function asset;
@@ -36,9 +34,10 @@ use function session;
 use function type;
 use function view;
 
+use const PHP_EOL;
+
 final class FunctionsTest extends TestCase
 {
-
     public function testAbort(): void
     {
         $this->expectException(InternalServerException::class);
@@ -276,5 +275,4 @@ final class FunctionsTest extends TestCase
             view('test/template', ['a' => 1], 'default')
         );
     }
-
 }

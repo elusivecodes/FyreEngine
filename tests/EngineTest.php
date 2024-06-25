@@ -14,7 +14,6 @@ use function function_exists;
 
 final class EngineTest extends TestCase
 {
-
     public function testBootstrap(): void
     {
         $this->assertTrue(
@@ -37,7 +36,7 @@ final class EngineTest extends TestCase
 
     public function testMiddleware(): void
     {
-        $queue = new MiddlewareQueue;
+        $queue = new MiddlewareQueue();
 
         $this->assertSame(
             $queue,
@@ -52,5 +51,4 @@ final class EngineTest extends TestCase
             Router::getBaseUri()
         );
     }
-
 }
