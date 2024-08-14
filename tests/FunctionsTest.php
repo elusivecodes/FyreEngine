@@ -5,6 +5,8 @@ namespace Tests;
 
 use Fyre\Cache\Cache;
 use Fyre\DateTime\DateTime;
+use Fyre\DB\ConnectionManager;
+use Fyre\DB\Handlers\Sqlite\SqliteConnection;
 use Fyre\DB\Types\DateTimeType;
 use Fyre\Encryption\Encryption;
 use Fyre\Error\Exceptions\GoneException;
@@ -97,6 +99,22 @@ final class FunctionsTest extends TestCase
         $this->assertSame(
             'Test',
             config('App.value')
+        );
+    }
+
+    public function testDb(): void
+    {
+        $this->assertSame(
+            ConnectionManager::use(),
+            db()
+        );
+    }
+
+    public function testDbKey(): void
+    {
+        $this->assertSame(
+            ConnectionManager::use('other'),
+            db('other')
         );
     }
 
@@ -274,5 +292,19 @@ final class FunctionsTest extends TestCase
             'Content: Template: 1',
             view('test/template', ['a' => 1], 'default')
         );
+    }
+
+    public function setUp(): void
+    {
+        ConnectionManager::clear();
+
+        ConnectionManager::setConfig([
+            'default' => [
+                'className' => SqliteConnection::class,
+            ],
+            'other' => [
+                'className' => SqliteConnection::class,
+            ],
+        ]);
     }
 }

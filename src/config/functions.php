@@ -5,6 +5,8 @@ use Fyre\Cache\Cache;
 use Fyre\Cache\Cacher;
 use Fyre\Config\Config;
 use Fyre\DateTime\DateTime;
+use Fyre\DB\Connection;
+use Fyre\DB\ConnectionManager;
 use Fyre\DB\TypeParser;
 use Fyre\DB\Types\Type;
 use Fyre\Encryption\Encrypter;
@@ -43,7 +45,7 @@ if (!function_exists('__')) {
      *
      * @param string $key The language key.
      * @param array $data The data to insert.
-     * @return string|array|null The formatted language string.
+     * @return array|string|null The formatted language string.
      */
     function __(string $key, array $data = []): array|string|null
     {
@@ -125,6 +127,19 @@ if (!function_exists('config')) {
     function config(string $key, $default = null): mixed
     {
         return Config::get($key, $default);
+    }
+}
+
+if (!function_exists('db')) {
+    /**
+     * Load a shared handler instance.
+     *
+     * @param string $key The config key.
+     * @return Connection The handler.
+     */
+    function db(string $key = ConnectionManager::DEFAULT): Connection
+    {
+        return ConnectionManager::use($key);
     }
 }
 
@@ -283,7 +298,7 @@ if (!function_exists('request')) {
      *
      * @param string|null $key The key.
      * @param int $filter The filter to apply.
-     * @param int|array $options Options or flags to use when filtering.
+     * @param array|int $options Options or flags to use when filtering.
      * @return mixed The ServerRequest or the post value.
      */
     function request(string|null $key = null, int $filter = FILTER_DEFAULT, array|int $options = 0): mixed

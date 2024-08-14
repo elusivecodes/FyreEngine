@@ -111,6 +111,16 @@ Retrieve a value from the config using "dot" notation.
 $value = config($key, $default);
 ```
 
+**DB**
+
+Load a shared [*Connection*](https://github.com/elusivecodes/FyreDB#connections) instance.
+
+- `$key` is a string representing the [*Connection*](https://github.com/elusivecodes/FyreDB#connections) key, and will default to `ConnectionManager::DEFAULT`.
+
+```php
+$connection = db($key);
+```
+
 **DD**
 
 Dump and die.
