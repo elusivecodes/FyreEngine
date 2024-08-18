@@ -294,7 +294,7 @@ final class FunctionsTest extends TestCase
         );
     }
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         ConnectionManager::clear();
 

@@ -186,7 +186,7 @@ Log a message.
 - `$data` is an array containing data to insert into the message string.
 
 ```php
-log($type, $message, $data);
+log_message($type, $message, $data);
 ```
 
 The `$type` must be one of the supported [log levels](https://github.com/elusivecodes/FyreLog#logging).
