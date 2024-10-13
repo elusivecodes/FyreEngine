@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use Fyre\Cache\Cache;
 use Fyre\Cache\Cacher;
+use Fyre\Collection\Collection;
 use Fyre\Config\Config;
 use Fyre\DateTime\DateTime;
 use Fyre\DB\Connection;
@@ -98,8 +99,7 @@ if (!function_exists('asset')) {
                 ->getUri();
         }
 
-        return Uri::fromString($path)
-            ->getUri();
+        return Uri::fromString($path)->getUri();
     }
 }
 
@@ -113,6 +113,18 @@ if (!function_exists('cache')) {
     function cache(string $key = Cache::DEFAULT): Cacher
     {
         return Cache::use($key);
+    }
+}
+
+if (!function_exists('collect')) {
+    /**
+     * Create a new Collection
+     *
+     * @param array|Closure|JsonSerializable|Traversable|null $source The source.
+     */
+    function collect(array|Closure|JsonSerializable|Traversable|null $source): Collection
+    {
+        return new Collection($source);
     }
 }
 
@@ -223,7 +235,7 @@ if (!function_exists('json')) {
      */
     function json(mixed $data): ClientResponse
     {
-        return (new ClientResponse())->setJson($data);
+        return response()->setJson($data);
     }
 }
 
@@ -303,7 +315,7 @@ if (!function_exists('request')) {
      */
     function request(string|null $key = null, int $filter = FILTER_DEFAULT, array|int $options = 0): mixed
     {
-        static $request = ServerRequest::instance();
+        $request = ServerRequest::instance();
 
         if (func_num_args() === 0) {
             return $request;
@@ -382,7 +394,7 @@ if (!function_exists('view')) {
      */
     function view(string $template, array $data = [], string|null $layout = null): string
     {
-        static $request = ServerRequest::instance();
+        $request = ServerRequest::instance();
 
         return (new View($request))
             ->setData($data)

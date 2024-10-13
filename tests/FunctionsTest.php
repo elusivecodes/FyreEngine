@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use Fyre\Cache\Cache;
+use Fyre\Collection\Collection;
 use Fyre\DateTime\DateTime;
 use Fyre\DB\ConnectionManager;
 use Fyre\DB\Handlers\Sqlite\SqliteConnection;
@@ -91,6 +92,21 @@ final class FunctionsTest extends TestCase
         $this->assertSame(
             Cache::use('null'),
             cache('null')
+        );
+    }
+
+    public function testCollect(): void
+    {
+        $collection = collect([1, 2, 3]);
+
+        $this->assertInstanceOf(
+            Collection::class,
+            $collection
+        );
+
+        $this->assertSame(
+            [1, 2, 3],
+            $collection->toArray()
         );
     }
 

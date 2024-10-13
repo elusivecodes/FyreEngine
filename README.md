@@ -100,6 +100,16 @@ Load a shared [*Cacher*](https://github.com/elusivecodes/FyreCache) instance.
 $cacher = cache($key);
 ```
 
+**Collect**
+
+Create a new [*Collection*](https://github.com/elusivecodes/FyreCollection).
+
+- `$source` can be either an array, a *Closure* that returns a *Generator*, or a *Traversable* or *JsonSerializable* object.
+
+```php
+$collection = collect($source);
+```
+
 **Config**
 
 Retrieve a value from the config using "dot" notation.

@@ -37,6 +37,7 @@ abstract class Engine
 
         CommandRunner::addNamespace('App\Commands');
         CommandRunner::addNamespace('Fyre\Queue\Commands');
+        CommandRunner::addNamespace('Fyre\Make\Commands');
         CommandRunner::addNamespace('Fyre\Migration\Commands');
 
         CellRegistry::addNamespace('App\Cells');
