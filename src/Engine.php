@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Fyre\Engine;
 
+use Fyre\Auth\PolicyRegistry;
 use Fyre\Command\CommandRunner;
 use Fyre\Config\Config;
 use Fyre\Entity\EntityLocator;
@@ -35,17 +36,17 @@ abstract class Engine
         Lang::addPath(LANG);
         Template::addPath(TEMPLATES);
 
+        BehaviorRegistry::addNamespace('App\Models\Behaviors');
+        CellRegistry::addNamespace('App\Cells');
         CommandRunner::addNamespace('App\Commands');
         CommandRunner::addNamespace('Fyre\Queue\Commands');
         CommandRunner::addNamespace('Fyre\Make\Commands');
         CommandRunner::addNamespace('Fyre\Migration\Commands');
-
-        CellRegistry::addNamespace('App\Cells');
         EntityLocator::addNamespace('App\Entities');
         HelperRegistry::addNamespace('App\Helpers');
         MigrationRunner::setNamespace('App\Migrations');
         ModelRegistry::addNamespace('App\Models');
-        BehaviorRegistry::addNamespace('App\Models\Behaviors');
+        PolicyRegistry::addNamespace('App\Policies');
 
         Config::load('functions');
         Config::load('bootstrap');

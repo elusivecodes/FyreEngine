@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+use Fyre\Auth\Access;
+use Fyre\Auth\Auth;
 use Fyre\Cache\Cache;
 use Fyre\Cache\Cacher;
 use Fyre\Collection\Collection;
@@ -12,6 +14,7 @@ use Fyre\DB\TypeParser;
 use Fyre\DB\Types\Type;
 use Fyre\Encryption\Encrypter;
 use Fyre\Encryption\Encryption;
+use Fyre\Entity\Entity;
 use Fyre\Error\Exceptions\BadRequestException;
 use Fyre\Error\Exceptions\ConflictException;
 use Fyre\Error\Exceptions\Exception;
@@ -103,6 +106,33 @@ if (!function_exists('asset')) {
     }
 }
 
+if (!function_exists('auth')) {
+    /**
+     * Load a shared Auth instance.
+     *
+     * @return Auth The Auth.
+     */
+    function auth(): Auth
+    {
+        return Auth::instance();
+    }
+}
+
+if (!function_exists('authorize')) {
+    /**
+     * Authorize an access rule.
+     *
+     * @param string $rule The access rule name.
+     * @param mixed ...$args Additional arguments for the access rule.
+     *
+     * @throws ForbiddenException if access was not authorized.
+     */
+    function authorize(string $rule, mixed ...$args): void
+    {
+        Access::authorize($rule, ...$args);
+    }
+}
+
 if (!function_exists('cache')) {
     /**
      * Load a shared cache instance.
@@ -113,6 +143,62 @@ if (!function_exists('cache')) {
     function cache(string $key = Cache::DEFAULT): Cacher
     {
         return Cache::use($key);
+    }
+}
+
+if (!function_exists('can')) {
+    /**
+     * Check whether an access rule is allowed.
+     *
+     * @param string $rule The access rule name.
+     * @param mixed ...$args Additional arguments for the access rule.
+     * @return bool TRUE if the access rule was allowed, otherwise FALSE.
+     */
+    function can(string $rule, mixed ...$args): bool
+    {
+        return Access::allows($rule, ...$args);
+    }
+}
+
+if (!function_exists('can_any')) {
+    /**
+     * Check whether any access rule is allowed.
+     *
+     * @param array $rules The access rule names.
+     * @param mixed ...$args Additional arguments for the access rule.
+     * @return bool TRUE if any access rule was allowed, otherwise FALSE.
+     */
+    function can_any(array $rules, mixed ...$args): bool
+    {
+        return Access::any($rules, ...$args);
+    }
+}
+
+if (!function_exists('can_none')) {
+    /**
+     * Check whether no access rule is allowed.
+     *
+     * @param array $rules The access rule names.
+     * @param mixed ...$args Additional arguments for the access rule.
+     * @return bool TRUE if no access rule was allowed, otherwise FALSE.
+     */
+    function can_none(array $rules, mixed ...$args): bool
+    {
+        return Access::none($rules, ...$args);
+    }
+}
+
+if (!function_exists('cannot')) {
+    /**
+     * Check whether an access rule is not allowed.
+     *
+     * @param string $rule The access rule name.
+     * @param mixed ...$args Additional arguments for the access rule.
+     * @return bool TRUE if the access rule was not allowed, otherwise FALSE.
+     */
+    function cannot(string $rule, mixed ...$args): bool
+    {
+        return Access::denies($rule, ...$args);
     }
 }
 
@@ -253,6 +339,18 @@ if (!function_exists('log_message')) {
     }
 }
 
+if (!function_exists('logged_in')) {
+    /**
+     * Determine if the current user is logged in.
+     *
+     * @return bool TRUE if the current user is logged in, otherwise FALSE.
+     */
+    function logged_in(): bool
+    {
+        return auth()->isLoggedIn();
+    }
+}
+
 if (!function_exists('model')) {
     /**
      * Load a shared Model instance.
@@ -383,6 +481,18 @@ if (!function_exists('type')) {
     }
 }
 
+if (!function_exists('user')) {
+    /**
+     * Get the current user.
+     *
+     * @return Entity|null The current user.
+     */
+    function user(): Entity|null
+    {
+        return auth()->user();
+    }
+}
+
 if (!function_exists('view')) {
     /**
      * Render a view template.
@@ -394,7 +504,7 @@ if (!function_exists('view')) {
      */
     function view(string $template, array $data = [], string|null $layout = null): string
     {
-        $request = ServerRequest::instance();
+        $request = request();
 
         return (new View($request))
             ->setData($data)

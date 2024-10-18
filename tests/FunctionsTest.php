@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Fyre\Auth\Auth;
 use Fyre\Cache\Cache;
 use Fyre\Collection\Collection;
 use Fyre\DateTime\DateTime;
@@ -10,6 +11,8 @@ use Fyre\DB\ConnectionManager;
 use Fyre\DB\Handlers\Sqlite\SqliteConnection;
 use Fyre\DB\Types\DateTimeType;
 use Fyre\Encryption\Encryption;
+use Fyre\Entity\Entity;
+use Fyre\Error\Exceptions\ForbiddenException;
 use Fyre\Error\Exceptions\GoneException;
 use Fyre\Error\Exceptions\InternalServerException;
 use Fyre\Error\Exceptions\NotFoundException;
@@ -23,11 +26,18 @@ use PHPUnit\Framework\TestCase;
 use function __;
 use function abort;
 use function asset;
+use function auth;
+use function authorize;
 use function cache;
+use function can;
+use function can_any;
+use function can_none;
+use function cannot;
 use function config;
 use function encryption;
 use function escape;
 use function json;
+use function logged_in;
 use function model;
 use function now;
 use function redirect;
@@ -35,6 +45,7 @@ use function request;
 use function route;
 use function session;
 use function type;
+use function user;
 use function view;
 
 use const PHP_EOL;
@@ -79,6 +90,29 @@ final class FunctionsTest extends TestCase
         );
     }
 
+    public function testAuth(): void
+    {
+        $this->assertSame(
+            Auth::instance(),
+            auth()
+        );
+    }
+
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testAuthorize(): void
+    {
+        authorize('test');
+    }
+
+    public function testAuthorizeFail(): void
+    {
+        $this->expectException(ForbiddenException::class);
+
+        authorize('fail');
+    }
+
     public function testCache(): void
     {
         $this->assertSame(
@@ -93,6 +127,36 @@ final class FunctionsTest extends TestCase
             Cache::use('null'),
             cache('null')
         );
+    }
+
+    public function testCan(): void
+    {
+        $this->assertTrue(can('test'));
+    }
+
+    public function testCanAny(): void
+    {
+        $this->assertTrue(can_any(['fail', 'test']));
+    }
+
+    public function testCanFail(): void
+    {
+        $this->assertFalse(can('fail'));
+    }
+
+    public function testCanNone(): void
+    {
+        $this->assertFalse(can_none(['fail', 'test']));
+    }
+
+    public function testCannot(): void
+    {
+        $this->assertTrue(cannot('fail'));
+    }
+
+    public function testCannotFail(): void
+    {
+        $this->assertFalse(cannot('test'));
     }
 
     public function testCollect(): void
@@ -196,6 +260,11 @@ final class FunctionsTest extends TestCase
         );
     }
 
+    public function testLoggedIn(): void
+    {
+        $this->assertTrue(logged_in());
+    }
+
     public function testModel(): void
     {
         $model = model('Test');
@@ -292,6 +361,18 @@ final class FunctionsTest extends TestCase
             DateTimeType::class,
             type('datetime')
         );
+    }
+
+    public function testUser(): void
+    {
+        $user = user();
+
+        $this->assertInstanceOf(
+            Entity::class,
+            $user
+        );
+
+        $this->assertSame(1, $user->id);
     }
 
     public function testView(): void

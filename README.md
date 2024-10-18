@@ -6,7 +6,7 @@
 ## Table Of Contents
 - [Installation](#installation)
 - [Methods](#methods)
-- [Functions](#functions)
+- [Global Functions](#global-functions)
 
 
 
@@ -54,7 +54,7 @@ Engine::routes();
 ```
 
 
-## Functions
+## Global Functions
 
 **__**
 
@@ -90,6 +90,26 @@ Generate a URL for an asset path.
 $url = asset($path);
 ```
 
+**Auth**
+
+Load a shared [*Auth*](https://github.com/elusivecodes/FyreAuth) instance.
+
+```php
+$auth = auth();
+```
+
+**Authorize**
+
+Authorize an access rule.
+
+- `$rule` is a string representing the access rule name or [*Policy*](https://github.com/elusivecodes/FyreAuth#policies) method.
+
+Any additional arguments supplied will be passed to the access rule callback or [*Policy*](https://github.com/elusivecodes/FyreAuth#policies) method.
+
+```php
+authorize($rule, ...$args);
+```
+
 **Cache**
 
 Load a shared [*Cacher*](https://github.com/elusivecodes/FyreCache) instance.
@@ -98,6 +118,54 @@ Load a shared [*Cacher*](https://github.com/elusivecodes/FyreCache) instance.
 
 ```php
 $cacher = cache($key);
+```
+
+**Can**
+
+Check whether an access rule is allowed.
+
+- `$rule` is a string representing the access rule name or [*Policy*](https://github.com/elusivecodes/FyreAuth#policies) method.
+
+Any additional arguments supplied will be passed to the access rule callback or [*Policy*](https://github.com/elusivecodes/FyreAuth#policies) method.
+
+```php
+$result = can($rule, ...$args);
+```
+
+**Can Any**
+
+Check whether any access rule is allowed.
+
+- `$rules` is an array containing access rule names or [*Policy*](https://github.com/elusivecodes/FyreAuth#policies) methods.
+
+Any additional arguments supplied will be passed to the access rule callbacks or [*Policy*](https://github.com/elusivecodes/FyreAuth#policies) methods.
+
+```php
+$result = can_any($rules, ...$args);
+```
+
+**Can None**
+
+Check whether no access rule is allowed.
+
+- `$rules` is an array containing access rule names or [*Policy*](https://github.com/elusivecodes/FyreAuth#policies) methods.
+
+Any additional arguments supplied will be passed to the access rule callbacks or [*Policy*](https://github.com/elusivecodes/FyreAuth#policies) methods.
+
+```php
+$result = can_none($rule, ...$args);
+```
+
+**Cannot**
+
+Check whether an access rule is not allowed.
+
+- `$rule` is a string representing the access rule name or [*Policy*](https://github.com/elusivecodes/FyreAuth#policies) method.
+
+Any additional arguments supplied will be passed to the access rule callback or [*Policy*](https://github.com/elusivecodes/FyreAuth#policies) method.
+
+```php
+$result = cannot($rule, ...$args);
 ```
 
 **Collect**
@@ -200,6 +268,14 @@ log_message($type, $message, $data);
 ```
 
 The `$type` must be one of the supported [log levels](https://github.com/elusivecodes/FyreLog#logging).
+
+**Logged In**
+
+Determine if the current user is logged in.
+
+```php
+$loggedIn = logged_in();
+```
 
 **Model**
 
@@ -313,6 +389,14 @@ Get the mapped [*Type*](https://github.com/elusivecodes/FyreTypeParser#types) cl
 
 ```php
 $typeClass = type($type);
+```
+
+**User**
+
+Get the current user.
+
+```php
+$user = user();
 ```
 
 **View**

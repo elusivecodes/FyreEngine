@@ -20,6 +20,7 @@
         }
     },
     "require": {
+        "fyre/auth": "^2.0",
         "fyre/command": "^4.0",
         "fyre/collection": "^1.0",
         "fyre/config": "^3.0",
@@ -28,6 +29,7 @@
         "fyre/error": "^4.0",
         "fyre/lang": "3.0",
         "fyre/mail": "^2.0",
+        "fyre/make": "^1.1",
         "fyre/middleware": "^2.0",
         "fyre/migration": "^4.0",
         "fyre/orm": "^8.0",
