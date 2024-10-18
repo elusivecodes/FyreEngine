@@ -97,7 +97,7 @@ if (!function_exists('asset')) {
         $options['fullBase'] ??= false;
 
         if ($options['fullBase']) {
-            return Uri::fromString(Config::get('App.baseUri'))
+            return Uri::fromString(config('App.baseUri'))
                 ->resolveRelativeUri($path)
                 ->getUri();
         }
@@ -273,6 +273,20 @@ if (!function_exists('dump')) {
                 echo '</pre>';
             }
         }
+    }
+}
+
+if (!function_exists('element')) {
+    /**
+     * Render an element.
+     *
+     * @param string $file The element file.
+     * @param array $data The view data.
+     * @return string The rendered element.
+     */
+    function element(string $file, array $data = []): string
+    {
+        return (new View(request()))->element($file, $data);
     }
 }
 
@@ -504,11 +518,9 @@ if (!function_exists('view')) {
      */
     function view(string $template, array $data = [], string|null $layout = null): string
     {
-        $request = request();
-
-        return (new View($request))
+        return (new View(request()))
             ->setData($data)
-            ->setLayout($layout ?? Config::get('App.defaultLayout'))
+            ->setLayout($layout ?? config('App.defaultLayout'))
             ->render($template);
     }
 }

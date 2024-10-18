@@ -33,7 +33,11 @@ use function can;
 use function can_any;
 use function can_none;
 use function cannot;
+use function collect;
 use function config;
+use function db;
+use function element;
+use function email;
 use function encryption;
 use function escape;
 use function json;
@@ -195,6 +199,14 @@ final class FunctionsTest extends TestCase
         $this->assertSame(
             ConnectionManager::use('other'),
             db('other')
+        );
+    }
+
+    public function testElement(): void
+    {
+        $this->assertSame(
+            'Element: 1',
+            element('test', ['a' => 1])
         );
     }
 
