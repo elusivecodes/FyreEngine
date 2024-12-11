@@ -44,5 +44,9 @@ final class EngineTest extends TestCase
         $this->app = new Engine($loader);
 
         Engine::setInstance($this->app);
+
+        $this->app->use(Config::class)
+            ->load('functions')
+            ->load('app');
     }
 }

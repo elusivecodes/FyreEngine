@@ -5,6 +5,7 @@ namespace Fyre\Engine;
 
 use Fyre\Auth\Access;
 use Fyre\Auth\Auth;
+use Fyre\Auth\Identifier;
 use Fyre\Auth\Middleware\AuthenticatedMiddleware;
 use Fyre\Auth\Middleware\AuthMiddleware;
 use Fyre\Auth\Middleware\AuthorizedMiddleware;
@@ -13,6 +14,7 @@ use Fyre\Auth\PolicyRegistry;
 use Fyre\Cache\CacheManager;
 use Fyre\Command\CommandRunner;
 use Fyre\Config\Config;
+use Fyre\Console\Console;
 use Fyre\Container\Container;
 use Fyre\DB\ConnectionManager;
 use Fyre\DB\TypeParser;
@@ -52,7 +54,6 @@ use Fyre\Utility\Timer;
 use Fyre\View\CellRegistry;
 use Fyre\View\HelperRegistry;
 use Fyre\View\TemplateLocator;
-use PhpParser\Node\Identifier;
 
 use function file_exists;
 
@@ -105,6 +106,7 @@ class Engine extends Container
                     ->addPath(Path::join(__DIR__, 'config'))
             )
             ->singleton(ConnectionManager::class)
+            ->singleton(Console::class)
             ->singleton(ContentSecurityPolicy::class)
             ->singleton(CsrfProtection::class)
             ->singleton(EncryptionManager::class)
@@ -187,22 +189,6 @@ class Engine extends Container
             )
             ->singleton(Timer::class)
             ->singleton(TypeParser::class);
-
-        $this->call([$this, 'boot']);
-    }
-
-    /**
-     * Start the Engine.
-     *
-     * @return static The Engine.
-     */
-    public function boot(): static
-    {
-        $this->use(Config::class)
-            ->load('functions')
-            ->load('app');
-
-        return $this;
     }
 
     /**

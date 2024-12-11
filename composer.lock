@@ -287,16 +287,16 @@
         },
         {
             "name": "fyre/console",
-            "version": "v4.0",
+            "version": "v4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreConsole.git",
-                "reference": "183c3a1b93c9c67cd3bce6026f9ee7695c38cc6a"
+                "reference": "846b5c94e7f4df1ec99eade991525d55b87b444f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreConsole/zipball/183c3a1b93c9c67cd3bce6026f9ee7695c38cc6a",
-                "reference": "183c3a1b93c9c67cd3bce6026f9ee7695c38cc6a",
+                "url": "https://api.github.com/repos/elusivecodes/FyreConsole/zipball/846b5c94e7f4df1ec99eade991525d55b87b444f",
+                "reference": "846b5c94e7f4df1ec99eade991525d55b87b444f",
                 "shasum": ""
             },
             "require-dev": {
@@ -323,9 +323,9 @@
             "description": "A CLI library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreConsole/issues",
-                "source": "https://github.com/elusivecodes/FyreConsole/tree/v4.0"
+                "source": "https://github.com/elusivecodes/FyreConsole/tree/v4.0.1"
             },
-            "time": "2024-10-30T14:06:56+00:00"
+            "time": "2024-12-11T05:51:45+00:00"
         },
         {
             "name": "fyre/container",
@@ -5863,8 +5863,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {

@@ -446,6 +446,10 @@ final class FunctionsTest extends TestCase
 
         Engine::setInstance($this->app);
 
+        $this->app->use(Config::class)
+            ->load('functions')
+            ->load('app');
+
         $auth = $this->app->use(Auth::class);
         $access = $auth->access();
 
