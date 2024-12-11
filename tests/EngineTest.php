@@ -6,23 +6,19 @@ namespace Tests;
 use Fyre\Config\Config;
 use Fyre\Engine\Engine;
 use Fyre\Lang\Lang;
-use Fyre\Middleware\MiddlewareQueue;
+use Fyre\Loader\Loader;
 use Fyre\Router\Router;
 use PHPUnit\Framework\TestCase;
 
-use function function_exists;
-
 final class EngineTest extends TestCase
 {
+    protected Engine $app;
+
     public function testBootstrap(): void
     {
-        $this->assertTrue(
-            function_exists('test1')
-        );
-
         $this->assertSame(
             'Test',
-            Config::get('App.value')
+            $this->app->use(Config::class)->get('App.value')
         );
     }
 
@@ -30,17 +26,7 @@ final class EngineTest extends TestCase
     {
         $this->assertSame(
             'Test',
-            Lang::get('Values.test')
-        );
-    }
-
-    public function testMiddleware(): void
-    {
-        $queue = new MiddlewareQueue();
-
-        $this->assertSame(
-            $queue,
-            Engine::middleware($queue)
+            $this->app->use(Lang::class)->get('Values.test')
         );
     }
 
@@ -48,7 +34,15 @@ final class EngineTest extends TestCase
     {
         $this->assertSame(
             'https://test.com/',
-            Router::getBaseUri()
+            $this->app->use(Router::class)->getBaseUri()
         );
+    }
+
+    protected function setUp(): void
+    {
+        $loader = new Loader();
+        $this->app = new Engine($loader);
+
+        Engine::setInstance($this->app);
     }
 }

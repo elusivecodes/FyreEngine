@@ -4,23 +4,27 @@ declare(strict_types=1);
 namespace Tests;
 
 use Fyre\Auth\Auth;
-use Fyre\Cache\Cache;
+use Fyre\Cache\CacheManager;
 use Fyre\Collection\Collection;
+use Fyre\Config\Config;
 use Fyre\DateTime\DateTime;
 use Fyre\DB\ConnectionManager;
-use Fyre\DB\Handlers\Sqlite\SqliteConnection;
+use Fyre\DB\TypeParser;
 use Fyre\DB\Types\DateTimeType;
-use Fyre\Encryption\Encryption;
+use Fyre\Encryption\EncryptionManager;
+use Fyre\Engine\Engine;
 use Fyre\Entity\Entity;
 use Fyre\Error\Exceptions\ForbiddenException;
 use Fyre\Error\Exceptions\GoneException;
 use Fyre\Error\Exceptions\InternalServerException;
 use Fyre\Error\Exceptions\NotFoundException;
+use Fyre\Loader\Loader;
 use Fyre\Mail\Email;
 use Fyre\ORM\Model;
 use Fyre\Server\ClientResponse;
 use Fyre\Server\RedirectResponse;
 use Fyre\Server\ServerRequest;
+use Fyre\Session\Session;
 use PHPUnit\Framework\TestCase;
 
 use function __;
@@ -30,8 +34,6 @@ use function auth;
 use function authorize;
 use function cache;
 use function can;
-use function can_any;
-use function can_none;
 use function cannot;
 use function collect;
 use function config;
@@ -56,6 +58,8 @@ use const PHP_EOL;
 
 final class FunctionsTest extends TestCase
 {
+    protected Engine $app;
+
     public function testAbort(): void
     {
         $this->expectException(InternalServerException::class);
@@ -78,6 +82,14 @@ final class FunctionsTest extends TestCase
         abort(404, 'This is a message');
     }
 
+    public function testApp(): void
+    {
+        $this->assertSame(
+            $this->app,
+            app()
+        );
+    }
+
     public function testAsset(): void
     {
         $this->assertSame(
@@ -97,7 +109,7 @@ final class FunctionsTest extends TestCase
     public function testAuth(): void
     {
         $this->assertSame(
-            Auth::instance(),
+            $this->app->use(Auth::class),
             auth()
         );
     }
@@ -120,7 +132,7 @@ final class FunctionsTest extends TestCase
     public function testCache(): void
     {
         $this->assertSame(
-            Cache::use(),
+            $this->app->use(CacheManager::class)->use(),
             cache()
         );
     }
@@ -128,7 +140,7 @@ final class FunctionsTest extends TestCase
     public function testCacheKey(): void
     {
         $this->assertSame(
-            Cache::use('null'),
+            $this->app->use(CacheManager::class)->use('null'),
             cache('null')
         );
     }
@@ -181,6 +193,14 @@ final class FunctionsTest extends TestCase
     public function testConfig(): void
     {
         $this->assertSame(
+            $this->app->use(Config::class),
+            config()
+        );
+    }
+
+    public function testConfigKey(): void
+    {
+        $this->assertSame(
             'Test',
             config('App.value')
         );
@@ -189,7 +209,7 @@ final class FunctionsTest extends TestCase
     public function testDb(): void
     {
         $this->assertSame(
-            ConnectionManager::use(),
+            $this->app->use(ConnectionManager::class)->use(),
             db()
         );
     }
@@ -197,7 +217,7 @@ final class FunctionsTest extends TestCase
     public function testDbKey(): void
     {
         $this->assertSame(
-            ConnectionManager::use('other'),
+            $this->app->use(ConnectionManager::class)->use('other'),
             db('other')
         );
     }
@@ -221,7 +241,7 @@ final class FunctionsTest extends TestCase
     public function testEncryption(): void
     {
         $this->assertSame(
-            Encryption::use(),
+            $this->app->use(EncryptionManager::class)->use(),
             encryption()
         );
     }
@@ -229,7 +249,7 @@ final class FunctionsTest extends TestCase
     public function testEncryptionKey(): void
     {
         $this->assertSame(
-            Encryption::use('openssl'),
+            $this->app->use(EncryptionManager::class)->use('openssl'),
             encryption('openssl')
         );
     }
@@ -318,7 +338,7 @@ final class FunctionsTest extends TestCase
     public function testRequest(): void
     {
         $this->assertSame(
-            ServerRequest::instance(),
+            $this->app->use(ServerRequest::class),
             request()
         );
     }
@@ -342,7 +362,7 @@ final class FunctionsTest extends TestCase
     {
         $this->assertSame(
             '/test/1',
-            route('test2', [1])
+            route('test2', ['id' => 1])
         );
     }
 
@@ -357,7 +377,15 @@ final class FunctionsTest extends TestCase
     public function testSession(): void
     {
         $this->assertSame(
-            1,
+            $this->app->use(Session::class),
+            session()
+        );
+    }
+
+    public function testSessionKey(): void
+    {
+        $this->assertSame(
+            $this->app->use(Session::class),
             session('a', 1)
         );
 
@@ -368,6 +396,14 @@ final class FunctionsTest extends TestCase
     }
 
     public function testType(): void
+    {
+        $this->assertInstanceOf(
+            TypeParser::class,
+            type()
+        );
+    }
+
+    public function testTypeKey(): void
     {
         $this->assertInstanceOf(
             DateTimeType::class,
@@ -405,15 +441,19 @@ final class FunctionsTest extends TestCase
 
     protected function setUp(): void
     {
-        ConnectionManager::clear();
+        $loader = new Loader();
+        $this->app = new Engine($loader);
 
-        ConnectionManager::setConfig([
-            'default' => [
-                'className' => SqliteConnection::class,
-            ],
-            'other' => [
-                'className' => SqliteConnection::class,
-            ],
-        ]);
+        Engine::setInstance($this->app);
+
+        $auth = $this->app->use(Auth::class);
+        $access = $auth->access();
+
+        $user = new Entity(['id' => 1]);
+        $auth->login($user);
+
+        $access->define('fail', fn(): bool => false);
+        $access->define('test', fn(Entity|null $user): bool => (bool) $user);
+
     }
 }

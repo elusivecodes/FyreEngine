@@ -5,6 +5,7 @@
 
 ## Table Of Contents
 - [Installation](#installation)
+- [Basic Usage](#basic-usage)
 - [Methods](#methods)
 - [Global Functions](#global-functions)
 
@@ -25,14 +26,25 @@ use Fyre\Engine\Engine;
 ```
 
 
-## Methods
+## Basic Usage
 
-**Bootstrap**
-
-Bootstrap application.
+- `$loader` is a [*Loader*](https://github.com/elusivecodes/FyreLoader).
 
 ```php
-Engine::bootstrap();
+$engine = new Engine($loader);
+```
+
+
+## Methods
+
+This class extends the [*Container*](https://github.com/elusivecodes/FyreContainer) class.
+
+**Boot**
+
+Boot the application.
+
+```php
+$engine->boot();
 ```
 
 **Middleware**
@@ -42,15 +54,7 @@ Build application [middleware](https://github.com/elusivecodes/FyreMiddleware).
 - `$queue` is a [*MiddlewareQueue*](https://github.com/elusivecodes/FyreMiddleware#middleware-queues).
 
 ```php
-Engine::middleware($queue);
-```
-
-**Routes**
-
-Build application [routes](https://github.com/elusivecodes/FyreRouter).
-
-```php
-Engine::routes();
+$middleware = $engine->middleware($queue);
 ```
 
 
@@ -76,6 +80,23 @@ Throw an [*Exception*](https://github.com/elusivecodes/FyreError).
 
 ```php
 abort($code, $message);
+```
+
+**App**
+
+Load a shared *Engine* instance.
+
+```php
+$app = app();
+```
+
+You can also load other shared class instances.
+
+- `$alias` is a string representing the alias.
+- `$arguments` is an array containing the named arguments for the class constructor.
+
+```php
+$instance = app($alias, $arguments);
 ```
 
 **Asset**
@@ -180,7 +201,13 @@ $collection = collect($source);
 
 **Config**
 
-Retrieve a value from the config using "dot" notation.
+Load a shared [*Config*](https://github.com/elusivecodes/FyreConfig) instance.
+
+```php
+$config = config();
+```
+
+You can also retrieve a value from the config using "dot" notation.
 
 - `$key` is a string representing the key to lookup.
 - `$default` is the default value to return, and will default to *null*.
@@ -367,6 +394,12 @@ $route = route($name, $arguments, $options);
 
 **Session**
 
+Load a shared [*Session*](https://github.com/elusivecodes/FyreSession) instance.
+
+```php
+$session = session();
+```
+
 Retrieve a value from the session.
 
 - `$key` is a string representing the session key.
@@ -383,7 +416,13 @@ session($key, $value);
 
 **Type**
 
-Get the mapped [*Type*](https://github.com/elusivecodes/FyreTypeParser#types) class for a value type.
+Load a shared [*TypeParser*](https://github.com/elusivecodes/FyreTypeParser) instance.
+
+```php
+$parser = type();
+```
+
+You can also get the mapped [*Type*](https://github.com/elusivecodes/FyreTypeParser#types) class for a value type.
 
 - `$type` is a string representing the value type.
 

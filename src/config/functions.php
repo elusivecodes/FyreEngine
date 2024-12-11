@@ -1,9 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use Fyre\Auth\Access;
 use Fyre\Auth\Auth;
-use Fyre\Cache\Cache;
+use Fyre\Cache\CacheManager;
 use Fyre\Cache\Cacher;
 use Fyre\Collection\Collection;
 use Fyre\Config\Config;
@@ -13,7 +12,8 @@ use Fyre\DB\ConnectionManager;
 use Fyre\DB\TypeParser;
 use Fyre\DB\Types\Type;
 use Fyre\Encryption\Encrypter;
-use Fyre\Encryption\Encryption;
+use Fyre\Encryption\EncryptionManager;
+use Fyre\Engine\Engine;
 use Fyre\Entity\Entity;
 use Fyre\Error\Exceptions\BadRequestException;
 use Fyre\Error\Exceptions\ConflictException;
@@ -29,9 +29,9 @@ use Fyre\Error\Exceptions\ServiceUnavailableException;
 use Fyre\Error\Exceptions\UnauthorizedException;
 use Fyre\Http\Uri;
 use Fyre\Lang\Lang;
-use Fyre\Log\Log;
+use Fyre\Log\LogManager;
 use Fyre\Mail\Email;
-use Fyre\Mail\Mail;
+use Fyre\Mail\MailManager;
 use Fyre\ORM\Model;
 use Fyre\ORM\ModelRegistry;
 use Fyre\Queue\QueueManager;
@@ -53,7 +53,7 @@ if (!function_exists('__')) {
      */
     function __(string $key, array $data = []): array|string|null
     {
-        return Lang::get($key, $data);
+        return app(Lang::class)->get($key, $data);
     }
 }
 
@@ -81,6 +81,26 @@ if (!function_exists('abort')) {
             503 => new ServiceUnavailableException($message),
             default => new InternalServerException($message, $code)
         };
+    }
+}
+
+if (!function_exists('app')) {
+    /**
+     * Load a shared App instance.
+     *
+     * @param string|null $alias The class alias.
+     * @param array $arguments The constructor arguments.
+     * @return object The Engine or instance.
+     */
+    function app(string|null $alias = null, array $arguments = []): object
+    {
+        $app = Engine::getInstance();
+
+        if ($alias === null) {
+            return $app;
+        }
+
+        return $app->use($alias, $arguments);
     }
 }
 
@@ -114,7 +134,7 @@ if (!function_exists('auth')) {
      */
     function auth(): Auth
     {
-        return Auth::instance();
+        return app(Auth::class);
     }
 }
 
@@ -129,7 +149,9 @@ if (!function_exists('authorize')) {
      */
     function authorize(string $rule, mixed ...$args): void
     {
-        Access::authorize($rule, ...$args);
+        auth()
+            ->access()
+            ->authorize($rule, ...$args);
     }
 }
 
@@ -140,9 +162,9 @@ if (!function_exists('cache')) {
      * @param string $key The config key.
      * @return Cacher The cache handler.
      */
-    function cache(string $key = Cache::DEFAULT): Cacher
+    function cache(string $key = CacheManager::DEFAULT): Cacher
     {
-        return Cache::use($key);
+        return app(CacheManager::class)->use($key);
     }
 }
 
@@ -156,7 +178,9 @@ if (!function_exists('can')) {
      */
     function can(string $rule, mixed ...$args): bool
     {
-        return Access::allows($rule, ...$args);
+        return auth()
+            ->access()
+            ->allows($rule, ...$args);
     }
 }
 
@@ -170,7 +194,9 @@ if (!function_exists('can_any')) {
      */
     function can_any(array $rules, mixed ...$args): bool
     {
-        return Access::any($rules, ...$args);
+        return auth()
+            ->access()
+            ->any($rules, ...$args);
     }
 }
 
@@ -184,7 +210,9 @@ if (!function_exists('can_none')) {
      */
     function can_none(array $rules, mixed ...$args): bool
     {
-        return Access::none($rules, ...$args);
+        return auth()
+            ->access()
+            ->none($rules, ...$args);
     }
 }
 
@@ -198,7 +226,9 @@ if (!function_exists('cannot')) {
      */
     function cannot(string $rule, mixed ...$args): bool
     {
-        return Access::denies($rule, ...$args);
+        return auth()
+            ->access()
+            ->denies($rule, ...$args);
     }
 }
 
@@ -218,13 +248,19 @@ if (!function_exists('config')) {
     /**
      * Retrieve a value from the config using "dot" notation.
      *
-     * @param string $key The config key.
+     * @param string|null $key The config key.
      * @param mixed $default The default value.
      * @return mixed The config value.
      */
-    function config(string $key, $default = null): mixed
+    function config(string|null $key = null, $default = null): mixed
     {
-        return Config::get($key, $default);
+        $config = app()->use(Config::class);
+
+        if ($key === null) {
+            return $config;
+        }
+
+        return $config->get($key, $default);
     }
 }
 
@@ -237,7 +273,7 @@ if (!function_exists('db')) {
      */
     function db(string $key = ConnectionManager::DEFAULT): Connection
     {
-        return ConnectionManager::use($key);
+        return app(ConnectionManager::class)->use($key);
     }
 }
 
@@ -286,7 +322,8 @@ if (!function_exists('element')) {
      */
     function element(string $file, array $data = []): string
     {
-        return (new View(request()))->element($file, $data);
+        return app(View::class)
+            ->element($file, $data);
     }
 }
 
@@ -294,9 +331,9 @@ if (!function_exists('email')) {
     /**
      * Create a new Email for a Mailer.
      */
-    function email(string $key = Mail::DEFAULT): Email
+    function email(string $key = MailManager::DEFAULT): Email
     {
-        return Mail::use($key)->email();
+        return app(MailManager::class)->use($key)->email();
     }
 }
 
@@ -307,9 +344,9 @@ if (!function_exists('encryption')) {
      * @param string $key The config key.
      * @return Encrypter The encryption handler.
      */
-    function encryption(string $key = Encryption::DEFAULT): Encrypter
+    function encryption(string $key = EncryptionManager::DEFAULT): Encrypter
     {
-        return Encryption::use($key);
+        return app(EncryptionManager::class)->use($key);
     }
 }
 
@@ -322,7 +359,7 @@ if (!function_exists('escape')) {
      */
     function escape(string $string): string
     {
-        return HtmlHelper::escape($string);
+        return app(HtmlHelper::class)->escape($string);
     }
 }
 
@@ -349,7 +386,7 @@ if (!function_exists('log_message')) {
      */
     function log_message(string $type, string $message, array $data = []): void
     {
-        Log::__callStatic($type, [$message, $data]);
+        app(LogManager::class)->handle($type, $message, $data);
     }
 }
 
@@ -374,7 +411,7 @@ if (!function_exists('model')) {
      */
     function model(string $alias): Model
     {
-        return ModelRegistry::use($alias);
+        return app(ModelRegistry::class)->use($alias);
     }
 }
 
@@ -400,7 +437,7 @@ if (!function_exists('queue')) {
      */
     function queue(string $className, array $arguments = [], array $options = []): void
     {
-        QueueManager::push($className, $arguments, $options);
+        app(QueueManager::class)->push($className, $arguments, $options);
     }
 }
 
@@ -412,7 +449,11 @@ if (!function_exists('redirect')) {
      */
     function redirect(string|Uri $uri, int $code = 302, array $options = []): RedirectResponse
     {
-        return new RedirectResponse($uri, $code, $options);
+        return app(RedirectResponse::class, [
+            'uri' => $uri,
+            'code' => $code,
+            'options' => $options,
+        ]);
     }
 }
 
@@ -427,13 +468,13 @@ if (!function_exists('request')) {
      */
     function request(string|null $key = null, int $filter = FILTER_DEFAULT, array|int $options = 0): mixed
     {
-        $request = ServerRequest::instance();
+        $request = app(ServerRequest::class);
 
         if (func_num_args() === 0) {
             return $request;
         }
 
-        return $request->getPost($key, $filter, $options);
+        return $request->getData($key, $filter, $options);
     }
 }
 
@@ -445,7 +486,7 @@ if (!function_exists('response')) {
      */
     function response(): ClientResponse
     {
-        return new ClientResponse();
+        return app(ClientResponse::class);
     }
 }
 
@@ -460,7 +501,8 @@ if (!function_exists('route')) {
      */
     function route(string $alias, array $arguments = [], array $options = []): string
     {
-        return Router::url($alias, $arguments, $options);
+        return app(Router::class)
+            ->url($alias, $arguments, $options);
     }
 }
 
@@ -468,17 +510,23 @@ if (!function_exists('session')) {
     /**
      * Get or set a session value.
      *
-     * @param string $key The session key.
+     * @param string|null $key The session key.
      * @param mixed $value The session value.
      * @return mixed The session value.
      */
-    function session(string $key, mixed $value = null): mixed
+    function session(string|null $key = null, mixed $value = null): mixed
     {
-        if (func_num_args() === 2) {
-            Session::set($key, $value);
+        $session = app(Session::class);
+
+        if ($key === null) {
+            return $session;
         }
 
-        return Session::get($key);
+        if (func_num_args() === 1) {
+            return $session->get($key);
+        }
+
+        return $session->set($key, $value);
     }
 }
 
@@ -486,12 +534,18 @@ if (!function_exists('type')) {
     /**
      * Get a Type class for a value type.
      *
-     * @param string $type The value type.
-     * @return Type The Type.
+     * @param string|null $type The value type.
+     * @return Type|TypeParser The TypeParser or Type.
      */
-    function type(string $type): Type
+    function type(string|null $type = null): Type|TypeParser
     {
-        return TypeParser::use($type);
+        $typeParser = app(TypeParser::class);
+
+        if ($type === null) {
+            return $typeParser;
+        }
+
+        return $typeParser->use($type);
     }
 }
 
@@ -518,7 +572,7 @@ if (!function_exists('view')) {
      */
     function view(string $template, array $data = [], string|null $layout = null): string
     {
-        return (new View(request()))
+        return app(View::class)
             ->setData($data)
             ->setLayout($layout ?? config('App.defaultLayout'))
             ->render($template);
