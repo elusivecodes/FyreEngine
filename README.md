@@ -262,6 +262,17 @@ Load a shared [*Encrypter*](https://github.com/elusivecodes/FyreEncryption) inst
 $encrypter = encryption($key);
 ```
 
+**Env**
+
+Retrieve an environment variable.
+
+- `$name` is a string representing the variable name.
+- `$default` is the default value to return, and will default to *null*.
+
+```php
+$value = env($name, $default);
+```
+
 **Escape**
 
 Escape characters in a string for use in HTML.

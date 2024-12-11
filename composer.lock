@@ -461,16 +461,16 @@
         },
         {
             "name": "fyre/csrf",
-            "version": "v5.0",
+            "version": "v5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreCSRF.git",
-                "reference": "e4955ce203855ff0b1dc914205f5f1b36f9d5291"
+                "reference": "b35d62a9101c03e2acfc77473c148ff777bc9282"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreCSRF/zipball/e4955ce203855ff0b1dc914205f5f1b36f9d5291",
-                "reference": "e4955ce203855ff0b1dc914205f5f1b36f9d5291",
+                "url": "https://api.github.com/repos/elusivecodes/FyreCSRF/zipball/b35d62a9101c03e2acfc77473c148ff777bc9282",
+                "reference": "b35d62a9101c03e2acfc77473c148ff777bc9282",
                 "shasum": ""
             },
             "require": {
@@ -503,9 +503,9 @@
             "description": "A CSRF protetion library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreCSRF/issues",
-                "source": "https://github.com/elusivecodes/FyreCSRF/tree/v5.0"
+                "source": "https://github.com/elusivecodes/FyreCSRF/tree/v5.0.1"
             },
-            "time": "2024-11-20T14:04:53+00:00"
+            "time": "2024-12-11T08:32:50+00:00"
         },
         {
             "name": "fyre/datetime",
@@ -1186,16 +1186,16 @@
         },
         {
             "name": "fyre/log",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreLog.git",
-                "reference": "7d4ba216999d24ce082fd4489395b6a17f0b2173"
+                "reference": "6472e92ef9ab4eb844a958ce7aeef32cbc03e29b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreLog/zipball/7d4ba216999d24ce082fd4489395b6a17f0b2173",
-                "reference": "7d4ba216999d24ce082fd4489395b6a17f0b2173",
+                "url": "https://api.github.com/repos/elusivecodes/FyreLog/zipball/6472e92ef9ab4eb844a958ce7aeef32cbc03e29b",
+                "reference": "6472e92ef9ab4eb844a958ce7aeef32cbc03e29b",
                 "shasum": ""
             },
             "require": {
@@ -1228,9 +1228,9 @@
             "description": "A logging library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreLog/issues",
-                "source": "https://github.com/elusivecodes/FyreLog/tree/v5.1.0"
+                "source": "https://github.com/elusivecodes/FyreLog/tree/v5.1.1"
             },
-            "time": "2024-11-17T00:51:56+00:00"
+            "time": "2024-12-11T08:30:37+00:00"
         },
         {
             "name": "fyre/mail",

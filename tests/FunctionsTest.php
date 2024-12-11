@@ -254,6 +254,22 @@ final class FunctionsTest extends TestCase
         );
     }
 
+    public function testEnv(): void
+    {
+        $this->assertSame(
+            'value',
+            env('test')
+        );
+    }
+
+    public function testEnvDefault(): void
+    {
+        $this->assertSame(
+            'value',
+            env('invalid', 'value')
+        );
+    }
+
     public function testEscape(): void
     {
         $this->assertSame(

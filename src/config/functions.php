@@ -350,6 +350,26 @@ if (!function_exists('encryption')) {
     }
 }
 
+if (!function_exists('env')) {
+    /**
+     * Retrieve an environment variable.
+     * 
+     * @param string $name The variable name.
+     * @param mixed $default The default value.
+     * @return mixed The variable value.
+     */
+    function env(string $name, $default = null): mixed
+    {
+        $value = getenv($name);
+
+        if ($value === false || $value === '') {
+            return $default;
+        }
+
+        return $value;
+    }
+}
+
 if (!function_exists('escape')) {
     /**
      * Escape characters in a string for use in HTML.
