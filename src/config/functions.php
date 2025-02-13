@@ -353,7 +353,7 @@ if (!function_exists('encryption')) {
 if (!function_exists('env')) {
     /**
      * Retrieve an environment variable.
-     * 
+     *
      * @param string $name The variable name.
      * @param mixed $default The default value.
      * @return mixed The variable value.

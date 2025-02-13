@@ -22,6 +22,8 @@ use Fyre\Encryption\EncryptionManager;
 use Fyre\Entity\EntityLocator;
 use Fyre\Error\ErrorHandler;
 use Fyre\Error\Middleware\ErrorHandlerMiddleware;
+use Fyre\Event\EventDispatcherTrait;
+use Fyre\Event\EventManager;
 use Fyre\Forge\ForgeRegistry;
 use Fyre\Form\FormBuilder;
 use Fyre\Lang\Lang;
@@ -66,6 +68,8 @@ use const TEMPLATES;
  */
 class Engine extends Container
 {
+    use EventDispatcherTrait;
+
     /**
      * New Engine constructor.
      *
@@ -116,6 +120,10 @@ class Engine extends Container
                     ->addNamespace('App\Entities')
             )
             ->singleton(ErrorHandler::class)
+            ->singleton(
+                EventManager::class,
+                fn(): EventManager => $this->getEventManager()
+            )
             ->singleton(ForgeRegistry::class)
             ->singleton(Formatter::class)
             ->singleton(FormBuilder::class)
@@ -138,7 +146,13 @@ class Engine extends Container
             ->singleton(Make::class)
             ->singleton(
                 MiddlewareQueue::class,
-                fn(): MiddlewareQueue => $this->middleware($this->build(MiddlewareQueue::class))
+                function(): MiddlewareQueue {
+                    $middleware = $this->middleware($this->build(MiddlewareQueue::class));
+
+                    $this->dispatchEvent('Engine.buildMiddleware', ['middleware' => $middleware]);
+
+                    return $middleware;
+                }
             )
             ->singleton(
                 MiddlewareRegistry::class,
