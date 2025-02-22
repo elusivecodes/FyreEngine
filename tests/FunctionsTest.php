@@ -114,11 +114,10 @@ final class FunctionsTest extends TestCase
         );
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testAuthorize(): void
     {
+        $this->expectNotToPerformAssertions();
+
         authorize('test');
     }
 
