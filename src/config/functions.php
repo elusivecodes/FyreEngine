@@ -482,11 +482,10 @@ if (!function_exists('request')) {
      * Load a shared ServerRequest instance.
      *
      * @param string|null $key The key.
-     * @param int $filter The filter to apply.
-     * @param array|int $options Options or flags to use when filtering.
+     * @param string|null $as The type.
      * @return mixed The ServerRequest or the post value.
      */
-    function request(string|null $key = null, int $filter = FILTER_DEFAULT, array|int $options = 0): mixed
+    function request(string|null $key = null, string|null $as = null): mixed
     {
         $request = app(ServerRequest::class);
 
@@ -494,7 +493,7 @@ if (!function_exists('request')) {
             return $request;
         }
 
-        return $request->getData($key, $filter, $options);
+        return $request->getData($key, $as);
     }
 }
 

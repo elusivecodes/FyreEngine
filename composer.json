@@ -32,8 +32,10 @@
         "fyre/encryption": "^5.0",
         "fyre/entity": "^5.0",
         "fyre/error": "^6.0",
+        "fyre/event": "^4.1",
         "fyre/forge": "^5.0",
         "fyre/formatter": "^4.1",
+        "fyre/iterator": "^5.0",
         "fyre/lang": "5.0",
         "fyre/log": "^5.1",
         "fyre/mail": "^4.0",
@@ -45,18 +47,17 @@
         "fyre/router": "^7.0",
         "fyre/server": "^4.0",
         "fyre/session": "^5.0",
-        "fyre/view": "^10.0",
         "fyre/timer": "^4.0",
-        "fyre/iterator": "^5.0"
+        "fyre/view": "^10.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.59",
         "fyre/php-cs-fixer-config": "^1.0",
-        "phpunit/phpunit": "^11"
+        "phpunit/phpunit": "^12"
     },
     "scripts": {
-        "cs": "php-cs-fixer fix --ansi --verbose --dry-run --diff",
-        "cs-fix": "php-cs-fixer fix --ansi --verbose --diff",
+        "cs": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --ansi --verbose --dry-run --diff",
+        "cs-fix": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --ansi --verbose --diff",
         "test": "phpunit tests"
     }
 }

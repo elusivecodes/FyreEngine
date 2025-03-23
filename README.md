@@ -373,11 +373,10 @@ $request = request();
 You can also retrieve value from the `$_POST` array by passing arguments to this function.
 
 - `$key` is a string representing the array key using "dot" notation.
-- `$filter` is a number representing the filter to apply, and will default to *FILTER_DEFAULT*.
-- `$options` is a number or array containing flags to use when filtering, and will default to *0*.
+- `$as` is a string representing the value type, and will default to *null*.
 
 ```php
-$value = request($key, $filter, $options);
+$value = request($key, $as);
 ```
 
 **Response**
