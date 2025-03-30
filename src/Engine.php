@@ -170,7 +170,7 @@ class Engine extends Container
             ->singleton(
                 MigrationRunner::class,
                 fn(): MigrationRunner => $this->build(MigrationRunner::class)
-                    ->setNamespace('App\Migrations')
+                    ->addNamespace('App\Migrations')
             )
             ->singleton(
                 ModelRegistry::class,
