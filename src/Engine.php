@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Fyre\Engine;
 
-use Fyre\Auth\Access;
 use Fyre\Auth\Auth;
 use Fyre\Auth\Identifier;
 use Fyre\Auth\Middleware\AuthenticatedMiddleware;
@@ -82,8 +81,7 @@ class Engine extends Container
         $this->instance(Loader::class, $loader);
 
         $this
-            ->singleton(Access::class)
-            ->singleton(Auth::class)
+            ->scoped(Auth::class)
             ->singleton(
                 BehaviorRegistry::class,
                 fn(): BehaviorRegistry => $this->build(BehaviorRegistry::class)
@@ -144,7 +142,7 @@ class Engine extends Container
             ->singleton(LogManager::class)
             ->singleton(MailManager::class)
             ->singleton(Make::class)
-            ->singleton(
+            ->scoped(
                 MiddlewareQueue::class,
                 function(): MiddlewareQueue {
                     $middleware = $this->middleware($this->build(MiddlewareQueue::class));
@@ -154,7 +152,7 @@ class Engine extends Container
                     return $middleware;
                 }
             )
-            ->singleton(
+            ->scoped(
                 MiddlewareRegistry::class,
                 fn(): MiddlewareRegistry => $this->build(MiddlewareRegistry::class)
                     ->map('auth', AuthMiddleware::class)

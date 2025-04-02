@@ -7,6 +7,7 @@
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - [Methods](#methods)
+- [Attributes](#attributes)
 - [Global Functions](#global-functions)
 
 
@@ -55,6 +56,114 @@ Build application [middleware](https://github.com/elusivecodes/FyreMiddleware).
 
 ```php
 $middleware = $engine->middleware($queue);
+```
+
+
+## Attributes
+
+Attributes can be used to provide context when resolving values from the [*Container*](https://github.com/elusivecodes/FyreContainer).
+
+**Cache**
+
+Load a shared [*Cacher*](https://github.com/elusivecodes/FyreCache#cachers) instance.
+
+```php
+use Fyre\Cache\Cacher;
+use Fyre\Engine\Attributes\Cache;
+
+$engine->call(function(#[Cache] Cacher $cache): void { });
+$engine->call(function(#[Cache('default')] Cacher $cache): void { });
+```
+
+**Config**
+
+Retrieve a value from the config using "dot" notation.
+
+```php
+use Fyre\Engine\Attributes\Config;
+
+$engine->call(function(#[Config('App.value')] string $value): void { });
+```
+
+**Current User**
+
+Get the current user.
+
+```php
+use Fyre\Engine\Attributes\CurrentUser;
+use Fyre\Entity\Entity;
+
+$engine->call(function(#[CurrentUser] Entity|null $user): void { });
+```
+
+**DB**
+
+Load a shared [*Connection*](https://github.com/elusivecodes/FyreDB#connections) instance.
+
+```php
+use Fyre\DB\Connection;
+use Fyre\Engine\Attributes\DB;
+
+$engine->call(function(#[DB] Connection $connection): void { });
+$engine->call(function(#[DB('default')] Connection $connection): void { });
+```
+
+**Encryption**
+
+Load a shared [*Encrypter*](https://github.com/elusivecodes/FyreEncryption#encrypters) instance.
+
+```php
+use Fyre\Encryption\Encrypter;
+use Fyre\Engine\Attributes\Encryption;
+
+$engine->call(function(#[Encryption] Encrypter $encrypter): void { });
+$engine->call(function(#[Encryption('default')] Encrypter $encrypter): void { });
+```
+
+**Log**
+
+Load a shared [*Logger*](https://github.com/elusivecodes/FyreLog#loggers) instance.
+
+```php
+use Fyre\Log\Logger;
+use Fyre\Engine\Attributes\Log;
+
+$engine->call(function(#[Log] Logger $logger): void { });
+$engine->call(function(#[Log('default')] Logger $logger): void { });
+```
+
+**Mail**
+
+Load a shared [*Mailer*](https://github.com/elusivecodes/FyreMail#mailers) instance.
+
+```php
+use Fyre\Mail\Mailer;
+use Fyre\Engine\Attributes\Mail;
+
+$engine->call(function(#[Mail] Mailer $mailer): void { });
+$engine->call(function(#[Mail('default')] Mailer $mailer): void { });
+```
+
+**ORM**
+
+Load a shared [*Model*](https://github.com/elusivecodes/FyreORM#models) instance.
+
+```php
+use Fyre\ORM\Model;
+use Fyre\Engine\Attributes\ORM;
+
+$engine->call(function(#[ORM] Model $model): void { });
+$engine->call(function(#[ORM('default')] Model $model): void { });
+```
+
+**Route Argument**
+
+Retrieve an argument from the loaded route.
+
+```php
+use Fyre\Engine\Attributes\RouteArgument;
+
+$engine->call(function(#[RouteArgument('id')] int $id): void { });
 ```
 
 
@@ -254,7 +363,7 @@ $email = email($key);
 
 **Encryption**
 
-Load a shared [*Encrypter*](https://github.com/elusivecodes/FyreEncryption) instance.
+Load a shared [*Encrypter*](https://github.com/elusivecodes/FyreEncryption#encrypters) instance.
 
 - `$key` is a string representing the *Encrypter* key, and will default to `Encryption::DEFAULT`.
 

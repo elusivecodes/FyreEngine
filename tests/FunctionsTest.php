@@ -473,6 +473,5 @@ final class FunctionsTest extends TestCase
 
         $access->define('fail', fn(): bool => false);
         $access->define('test', fn(Entity|null $user): bool => (bool) $user);
-
     }
 }
