@@ -44,6 +44,7 @@ use Fyre\Security\ContentSecurityPolicy;
 use Fyre\Security\CsrfProtection;
 use Fyre\Security\Middleware\CspMiddleware;
 use Fyre\Security\Middleware\CsrfProtectionMiddleware;
+use Fyre\Security\RateLimiter;
 use Fyre\Server\ServerRequest;
 use Fyre\Session\Session;
 use Fyre\Utility\Formatter;
@@ -110,7 +111,7 @@ class Engine extends Container
             ->singleton(ConnectionManager::class)
             ->singleton(Console::class)
             ->singleton(ContentSecurityPolicy::class)
-            ->singleton(CsrfProtection::class)
+            ->scoped(CsrfProtection::class)
             ->singleton(EncryptionManager::class)
             ->singleton(
                 EntityLocator::class,
@@ -133,7 +134,7 @@ class Engine extends Container
             ->singleton(HtmlHelper::class)
             ->singleton(Identifier::class)
             ->singleton(Inflector::class)
-            ->singleton(Iterator::class)
+            ->scoped(Iterator::class)
             ->singleton(
                 Lang::class,
                 fn(): Lang => $this->build(Lang::class)
@@ -181,6 +182,7 @@ class Engine extends Container
                     ->addNamespace('App\Policies')
             )
             ->singleton(QueueManager::class)
+            ->singleton(RateLimiter::class)
             ->singleton(Router::class, function(): Router {
                 $router = $this->build(Router::class);
                 $routesPath = Path::join(CONFIG, 'routes.php');
@@ -192,14 +194,14 @@ class Engine extends Container
                 return $router;
             })
             ->singleton(SchemaRegistry::class)
-            ->singleton(ServerRequest::class)
+            ->scoped(ServerRequest::class)
             ->singleton(Session::class)
             ->singleton(
                 TemplateLocator::class,
                 fn(): TemplateLocator => $this->build(TemplateLocator::class)
                     ->addPath(TEMPLATES)
             )
-            ->singleton(Timer::class)
+            ->scoped(Timer::class)
             ->singleton(TypeParser::class);
     }
 
