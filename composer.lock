@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86fa457066c8dd48b7f8927b5c38219c",
+    "content-hash": "6609895746d99919e3af19763f76606c",
     "packages": [
         {
             "name": "fyre/array",
@@ -922,16 +922,16 @@
         },
         {
             "name": "fyre/forge",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreForge.git",
-                "reference": "259ae2eefbbafe7a6158ddbe6bc65fe092db1ed9"
+                "reference": "3bb2e51191bc3ce3382be10e11fa16a35d0a4684"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreForge/zipball/259ae2eefbbafe7a6158ddbe6bc65fe092db1ed9",
-                "reference": "259ae2eefbbafe7a6158ddbe6bc65fe092db1ed9",
+                "url": "https://api.github.com/repos/elusivecodes/FyreForge/zipball/3bb2e51191bc3ce3382be10e11fa16a35d0a4684",
+                "reference": "3bb2e51191bc3ce3382be10e11fa16a35d0a4684",
                 "shasum": ""
             },
             "require": {
@@ -962,9 +962,9 @@
             "description": "A database forge library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreForge/issues",
-                "source": "https://github.com/elusivecodes/FyreForge/tree/v5.0.7"
+                "source": "https://github.com/elusivecodes/FyreForge/tree/v5.0.8"
             },
-            "time": "2025-04-08T09:36:27+00:00"
+            "time": "2025-04-12T01:24:50+00:00"
         },
         {
             "name": "fyre/formatter",
@@ -1417,16 +1417,16 @@
         },
         {
             "name": "fyre/make",
-            "version": "v3.0.3",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreMake.git",
-                "reference": "ed5abdb6d1328c0d487ed5340ced9aca97dd96e8"
+                "reference": "b9829937a8a4f431b9e08818124efb0fcc3f116c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreMake/zipball/ed5abdb6d1328c0d487ed5340ced9aca97dd96e8",
-                "reference": "ed5abdb6d1328c0d487ed5340ced9aca97dd96e8",
+                "url": "https://api.github.com/repos/elusivecodes/FyreMake/zipball/b9829937a8a4f431b9e08818124efb0fcc3f116c",
+                "reference": "b9829937a8a4f431b9e08818124efb0fcc3f116c",
                 "shasum": ""
             },
             "require": {
@@ -1468,9 +1468,9 @@
             "description": "A collection of commands for generating files.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreMake/issues",
-                "source": "https://github.com/elusivecodes/FyreMake/tree/v3.0.3"
+                "source": "https://github.com/elusivecodes/FyreMake/tree/v3.0.4"
             },
-            "time": "2025-04-08T09:56:43+00:00"
+            "time": "2025-04-12T01:27:23+00:00"
         },
         {
             "name": "fyre/math",
@@ -1607,16 +1607,16 @@
         },
         {
             "name": "fyre/migration",
-            "version": "v6.0.2",
+            "version": "v6.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreMigration.git",
-                "reference": "6694e21e291baf4b7303d5abc528e1b6bfedcdec"
+                "reference": "6529b2a3df67d903bf04182e1d1efe2e877cffca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreMigration/zipball/6694e21e291baf4b7303d5abc528e1b6bfedcdec",
-                "reference": "6694e21e291baf4b7303d5abc528e1b6bfedcdec",
+                "url": "https://api.github.com/repos/elusivecodes/FyreMigration/zipball/6529b2a3df67d903bf04182e1d1efe2e877cffca",
+                "reference": "6529b2a3df67d903bf04182e1d1efe2e877cffca",
                 "shasum": ""
             },
             "require": {
@@ -1650,9 +1650,9 @@
             "description": "A database migration library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreMigration/issues",
-                "source": "https://github.com/elusivecodes/FyreMigration/tree/v6.0.2"
+                "source": "https://github.com/elusivecodes/FyreMigration/tree/v6.0.3"
             },
-            "time": "2025-04-08T09:53:26+00:00"
+            "time": "2025-04-12T01:26:27+00:00"
         },
         {
             "name": "fyre/negotiate",
