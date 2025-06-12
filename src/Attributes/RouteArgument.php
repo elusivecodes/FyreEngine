@@ -11,17 +11,14 @@ use Fyre\Server\ServerRequest;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class RouteArgument extends ContextualAttribute
 {
-    protected string $name;
-
     /**
      * New Config constructor.
      *
      * @param string $name The name.
      */
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-    }
+    public function __construct(
+        protected string $name
+    ) {}
 
     /**
      * Get a route argument.

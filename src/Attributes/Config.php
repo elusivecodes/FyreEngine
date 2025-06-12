@@ -10,17 +10,14 @@ use Fyre\Container\ContextualAttribute;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class Config extends ContextualAttribute
 {
-    protected string $key;
-
     /**
      * New Config constructor.
      *
      * @param string $key The key.
      */
-    public function __construct(string $key)
-    {
-        $this->key = $key;
-    }
+    public function __construct(
+        protected string $key
+    ) {}
 
     /**
      * Retrieve a value from the config using "dot" notation.

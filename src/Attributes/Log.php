@@ -12,17 +12,14 @@ use Fyre\Log\LogManager;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class Log extends ContextualAttribute
 {
-    protected string $key;
-
     /**
      * New Log constructor.
      *
      * @param string $key The key.
      */
-    public function __construct(string $key = LogManager::DEFAULT)
-    {
-        $this->key = $key;
-    }
+    public function __construct(
+        protected string $key = LogManager::DEFAULT
+    ) {}
 
     /**
      * Load a shared handler instance.

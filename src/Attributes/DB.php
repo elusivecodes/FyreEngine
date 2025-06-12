@@ -12,17 +12,14 @@ use Fyre\DB\ConnectionManager;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class DB extends ContextualAttribute
 {
-    protected string $key;
-
     /**
      * New DB constructor.
      *
      * @param string $key The key.
      */
-    public function __construct(string $key = ConnectionManager::DEFAULT)
-    {
-        $this->key = $key;
-    }
+    public function __construct(
+        protected string $key = ConnectionManager::DEFAULT
+    ) {}
 
     /**
      * Load a shared handler instance.

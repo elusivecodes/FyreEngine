@@ -12,17 +12,14 @@ use Fyre\Encryption\EncryptionManager;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class Encryption extends ContextualAttribute
 {
-    protected string $key;
-
     /**
      * New Encryption constructor.
      *
      * @param string $key The key.
      */
-    public function __construct(string $key = EncryptionManager::DEFAULT)
-    {
-        $this->key = $key;
-    }
+    public function __construct(
+        protected string $key = EncryptionManager::DEFAULT
+    ) {}
 
     /**
      * Load a shared handler instance.

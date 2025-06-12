@@ -12,17 +12,14 @@ use Fyre\ORM\ModelRegistry;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class ORM extends ContextualAttribute
 {
-    protected string $alias;
-
     /**
      * New ORM constructor.
      *
      * @param string $alias The alias.
      */
-    public function __construct(string $alias)
-    {
-        $this->alias = $alias;
-    }
+    public function __construct(
+        protected string $alias
+    ) {}
 
     /**
      * Load a shared handler instance.

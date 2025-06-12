@@ -12,17 +12,14 @@ use Fyre\Mail\MailManager;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class Mail extends ContextualAttribute
 {
-    protected string $key;
-
     /**
      * New Mail constructor.
      *
      * @param string $key The key.
      */
-    public function __construct(string $key = MailManager::DEFAULT)
-    {
-        $this->key = $key;
-    }
+    public function __construct(
+        protected string $key = MailManager::DEFAULT
+    ) {}
 
     /**
      * Load a shared handler instance.

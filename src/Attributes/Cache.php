@@ -12,17 +12,14 @@ use Fyre\Container\ContextualAttribute;
 #[Attribute(Attribute::TARGET_PARAMETER)]
 class Cache extends ContextualAttribute
 {
-    protected string $key;
-
     /**
      * New Cache constructor.
      *
      * @param string $key The key.
      */
-    public function __construct(string $key = CacheManager::DEFAULT)
-    {
-        $this->key = $key;
-    }
+    public function __construct(
+        protected string $key = CacheManager::DEFAULT
+    ) {}
 
     /**
      * Load a shared handler instance.
